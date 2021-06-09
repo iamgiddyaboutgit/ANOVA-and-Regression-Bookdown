@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Literature | A Minimal Book Example</title>
+  <title>Chapter 7 ANOVA Tutorial | A Minimal Book Example</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Literature | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 7 ANOVA Tutorial | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Literature | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 7 ANOVA Tutorial | A Minimal Book Example" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="intro.html"/>
-<link rel="next" href="methods.html"/>
+<link rel="prev" href="references.html"/>
+<link rel="next" href="regression-and-categorical-variables.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -170,6 +170,20 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="anova-tutorial.html"><a href="anova-tutorial.html"><i class="fa fa-check"></i><b>7</b> ANOVA Tutorial</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#step-1-make-up-data"><i class="fa fa-check"></i><b>7.1</b> Step 1: Make up Data</a></li>
+<li class="chapter" data-level="7.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-the-assumptions"><i class="fa fa-check"></i><b>7.2</b> Checking the Assumptions</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-1"><i class="fa fa-check"></i><b>7.2.1</b> Checking Assumption 1</a></li>
+<li class="chapter" data-level="7.2.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-1-was-violated."><i class="fa fa-check"></i><b>7.2.2</b> Assumption 1 was violated.</a></li>
+<li class="chapter" data-level="7.2.3" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-2"><i class="fa fa-check"></i><b>7.2.3</b> Checking Assumption 2</a></li>
+<li class="chapter" data-level="7.2.4" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-2-was-violated."><i class="fa fa-check"></i><b>7.2.4</b> Assumption 2 was violated.</a></li>
+<li class="chapter" data-level="7.2.5" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-3"><i class="fa fa-check"></i><b>7.2.5</b> Checking Assumption 3</a></li>
+<li class="chapter" data-level="7.2.6" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-3-was-violated."><i class="fa fa-check"></i><b>7.2.6</b> Assumption 3 was violated.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="regression-and-categorical-variables.html"><a href="regression-and-categorical-variables.html"><i class="fa fa-check"></i><b>8</b> Regression and Categorical Variables</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -190,18 +204,73 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="literature" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Literature</h1>
-<p>Here is a review of existing methods.</p>
-
+<div id="anova-tutorial" class="section level1" number="7">
+<h1><span class="header-section-number">Chapter 7</span> ANOVA Tutorial</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="anova-tutorial.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cellWise)</span>
+<span id="cb3-2"><a href="anova-tutorial.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb3-3"><a href="anova-tutorial.html#cb3-3" aria-hidden="true" tabindex="-1"></a>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">tidy.opts=</span><span class="fu">list</span>(<span class="at">width.cutoff=</span><span class="dv">50</span>),<span class="at">tidy=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="step-1-make-up-data" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Step 1: Make up Data</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="anova-tutorial.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset1</span></span></code></pre></div>
+</div>
+<div id="checking-the-assumptions" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Checking the Assumptions</h2>
+<p>After running your ANOVA, check that the assumptions about the errors
+are met so that you can do statistical inference. Those assumptions are:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\text{E}(\epsilon_{ij})=0,\ \text{Var}(\epsilon_{ij})=\sigma_{i}^2 &lt; \infty,\ \text{for all }i, j.\)</span></li>
+<li>The <span class="math inline">\(\epsilon_{ij}\)</span> are mutually independent and normally
+distributed.</li>
+<li><span class="math inline">\(\sigma_{i}^2=\sigma^2\ \text{for all } i.\)</span></li>
+</ol>
+<div id="checking-assumption-1" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Checking Assumption 1</h3>
+</div>
+<div id="assumption-1-was-violated." class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Assumption 1 was violated.</h3>
+</div>
+<div id="checking-assumption-2" class="section level3" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Checking Assumption 2</h3>
+</div>
+<div id="assumption-2-was-violated." class="section level3" number="7.2.4">
+<h3><span class="header-section-number">7.2.4</span> Assumption 2 was violated.</h3>
+</div>
+<div id="checking-assumption-3" class="section level3" number="7.2.5">
+<h3><span class="header-section-number">7.2.5</span> Checking Assumption 3</h3>
+</div>
+<div id="assumption-3-was-violated." class="section level3" number="7.2.6">
+<h3><span class="header-section-number">7.2.6</span> Assumption 3 was violated.</h3>
+<p>A variance-stabilizing transformation of the response variable may help.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="anova-tutorial.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;data_mortality&quot;</span>)</span>
+<span id="cb5-2"><a href="anova-tutorial.html#cb5-2" aria-hidden="true" tabindex="-1"></a>transformed_response <span class="ot">=</span> <span class="fu">transfo</span>(data_mortality, <span class="at">prestandardize =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>##  
+##  The input data has 198 rows and 91 columns.</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="anova-tutorial.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_mortality[, <span class="dv">1</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="anova-tutorial.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(transformed_response<span class="sc">$</span>Xt[, <span class="dv">1</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="anova-tutorial.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(data_mortality[, <span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  data_mortality[, 1]
+## W = 0.86877, p-value = 4.552e-12</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="anova-tutorial.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(transformed_response<span class="sc">$</span>Xt[, <span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  transformed_response$Xt[, 1]
+## W = 0.88041, p-value = 1.968e-11</code></pre>
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regression-and-categorical-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -233,7 +302,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-literature.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-ANOVA.Rmd",
 "text": "Edit"
 },
 "history": {
