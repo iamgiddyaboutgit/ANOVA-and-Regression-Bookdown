@@ -4,27 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 7 ANOVA Tutorial | A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <title>Chapter 6 ANOVA Tutorial | Regression and ANOVA</title>
+  <meta name="description" content="This is a guide to ANOVA and regression and the connections between them." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 7 ANOVA Tutorial | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 6 ANOVA Tutorial | Regression and ANOVA" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta property="og:description" content="This is a guide to ANOVA and regression and the connections between them." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 7 ANOVA Tutorial | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 6 ANOVA Tutorial | Regression and ANOVA" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="This is a guide to ANOVA and regression and the connections between them." />
   
 
-<meta name="author" content="Yihui Xie" />
+<meta name="author" content="Justin Patterson" />
 
 
-<meta name="date" content="2021-06-08" />
+<meta name="date" content="2021-06-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="references.html"/>
-<link rel="next" href="regression-and-categorical-variables.html"/>
+
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -53,6 +53,17 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{longtable}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
 
 
 <style type="text/css">
@@ -159,31 +170,31 @@ div.csl-indent {
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
-<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>2</b> Literature</a></li>
+<li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a></li>
+<li class="chapter" data-level="4" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>4</b> Applications</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
-<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+<li class="chapter" data-level="4.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>4.1</b> Example one</a></li>
+<li class="chapter" data-level="4.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>4.2</b> Example two</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="5" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>5</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="7" data-path="anova-tutorial.html"><a href="anova-tutorial.html"><i class="fa fa-check"></i><b>7</b> ANOVA Tutorial</a>
+<li class="chapter" data-level="6" data-path="anova-tutorial.html"><a href="anova-tutorial.html"><i class="fa fa-check"></i><b>6</b> ANOVA Tutorial</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#step-1-make-up-data"><i class="fa fa-check"></i><b>7.1</b> Step 1: Make up Data</a></li>
-<li class="chapter" data-level="7.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-the-assumptions"><i class="fa fa-check"></i><b>7.2</b> Checking the Assumptions</a>
+<li class="chapter" data-level="6.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#step-1-make-up-data"><i class="fa fa-check"></i><b>6.1</b> Step 1: Make up Data</a></li>
+<li class="chapter" data-level="6.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-the-assumptions"><i class="fa fa-check"></i><b>6.2</b> Checking the Assumptions</a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-1"><i class="fa fa-check"></i><b>7.2.1</b> Checking Assumption 1</a></li>
-<li class="chapter" data-level="7.2.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-1-was-violated."><i class="fa fa-check"></i><b>7.2.2</b> Assumption 1 was violated.</a></li>
-<li class="chapter" data-level="7.2.3" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-2"><i class="fa fa-check"></i><b>7.2.3</b> Checking Assumption 2</a></li>
-<li class="chapter" data-level="7.2.4" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-2-was-violated."><i class="fa fa-check"></i><b>7.2.4</b> Assumption 2 was violated.</a></li>
-<li class="chapter" data-level="7.2.5" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-3"><i class="fa fa-check"></i><b>7.2.5</b> Checking Assumption 3</a></li>
-<li class="chapter" data-level="7.2.6" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-3-was-violated."><i class="fa fa-check"></i><b>7.2.6</b> Assumption 3 was violated.</a></li>
+<li class="chapter" data-level="6.2.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-1"><i class="fa fa-check"></i><b>6.2.1</b> Checking Assumption 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-1-was-violated."><i class="fa fa-check"></i><b>6.2.2</b> Assumption 1 was violated.</a></li>
+<li class="chapter" data-level="6.2.3" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-2"><i class="fa fa-check"></i><b>6.2.3</b> Checking Assumption 2</a></li>
+<li class="chapter" data-level="6.2.4" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-2-was-violated."><i class="fa fa-check"></i><b>6.2.4</b> Assumption 2 was violated.</a></li>
+<li class="chapter" data-level="6.2.5" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-3"><i class="fa fa-check"></i><b>6.2.5</b> Checking Assumption 3</a></li>
+<li class="chapter" data-level="6.2.6" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-3-was-violated."><i class="fa fa-check"></i><b>6.2.6</b> Assumption 3 was violated.</a></li>
 </ul></li>
+<li class="chapter" data-level="6.3" data-path="anova-tutorial.html"><a href="anova-tutorial.html#regression-and-categorical-variables"><i class="fa fa-check"></i><b>6.3</b> Regression and Categorical Variables</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="regression-and-categorical-variables.html"><a href="regression-and-categorical-variables.html"><i class="fa fa-check"></i><b>8</b> Regression and Categorical Variables</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -196,7 +207,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression and ANOVA</a>
           </h1>
         </div>
 
@@ -204,17 +215,17 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="anova-tutorial" class="section level1" number="7">
-<h1><span class="header-section-number">Chapter 7</span> ANOVA Tutorial</h1>
+<div id="anova-tutorial" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> ANOVA Tutorial</h1>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="anova-tutorial.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cellWise)</span>
 <span id="cb3-2"><a href="anova-tutorial.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb3-3"><a href="anova-tutorial.html#cb3-3" aria-hidden="true" tabindex="-1"></a>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">tidy.opts=</span><span class="fu">list</span>(<span class="at">width.cutoff=</span><span class="dv">50</span>),<span class="at">tidy=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<div id="step-1-make-up-data" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Step 1: Make up Data</h2>
+<div id="step-1-make-up-data" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Step 1: Make up Data</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="anova-tutorial.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset1</span></span></code></pre></div>
 </div>
-<div id="checking-the-assumptions" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Checking the Assumptions</h2>
+<div id="checking-the-assumptions" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Checking the Assumptions</h2>
 <p>After running your ANOVA, check that the assumptions about the errors
 are met so that you can do statistical inference. Those assumptions are:</p>
 <ol style="list-style-type: decimal">
@@ -223,23 +234,23 @@ are met so that you can do statistical inference. Those assumptions are:</p>
 distributed.</li>
 <li><span class="math inline">\(\sigma_{i}^2=\sigma^2\ \text{for all } i.\)</span></li>
 </ol>
-<div id="checking-assumption-1" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> Checking Assumption 1</h3>
+<div id="checking-assumption-1" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Checking Assumption 1</h3>
 </div>
-<div id="assumption-1-was-violated." class="section level3" number="7.2.2">
-<h3><span class="header-section-number">7.2.2</span> Assumption 1 was violated.</h3>
+<div id="assumption-1-was-violated." class="section level3" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Assumption 1 was violated.</h3>
 </div>
-<div id="checking-assumption-2" class="section level3" number="7.2.3">
-<h3><span class="header-section-number">7.2.3</span> Checking Assumption 2</h3>
+<div id="checking-assumption-2" class="section level3" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Checking Assumption 2</h3>
 </div>
-<div id="assumption-2-was-violated." class="section level3" number="7.2.4">
-<h3><span class="header-section-number">7.2.4</span> Assumption 2 was violated.</h3>
+<div id="assumption-2-was-violated." class="section level3" number="6.2.4">
+<h3><span class="header-section-number">6.2.4</span> Assumption 2 was violated.</h3>
 </div>
-<div id="checking-assumption-3" class="section level3" number="7.2.5">
-<h3><span class="header-section-number">7.2.5</span> Checking Assumption 3</h3>
+<div id="checking-assumption-3" class="section level3" number="6.2.5">
+<h3><span class="header-section-number">6.2.5</span> Checking Assumption 3</h3>
 </div>
-<div id="assumption-3-was-violated." class="section level3" number="7.2.6">
-<h3><span class="header-section-number">7.2.6</span> Assumption 3 was violated.</h3>
+<div id="assumption-3-was-violated." class="section level3" number="6.2.6">
+<h3><span class="header-section-number">6.2.6</span> Assumption 3 was violated.</h3>
 <p>A variance-stabilizing transformation of the response variable may help.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="anova-tutorial.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;data_mortality&quot;</span>)</span>
 <span id="cb5-2"><a href="anova-tutorial.html#cb5-2" aria-hidden="true" tabindex="-1"></a>transformed_response <span class="ot">=</span> <span class="fu">transfo</span>(data_mortality, <span class="at">prestandardize =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
@@ -263,14 +274,339 @@ distributed.</li>
 ## W = 0.88041, p-value = 1.968e-11</code></pre>
 </div>
 </div>
+<div id="regression-and-categorical-variables" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Regression and Categorical Variables</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="anova-tutorial.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;tune&#39;:
+##   method                   from   
+##   required_pkgs.model_spec parsnip</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────── tidymodels 0.1.3 ──</code></pre>
+<pre><code>## ✓ broom        0.7.6      ✓ recipes      0.1.16
+## ✓ dials        0.0.9      ✓ rsample      0.1.0 
+## ✓ dplyr        1.0.6      ✓ tibble       3.1.2 
+## ✓ ggplot2      3.3.3      ✓ tidyr        1.1.3 
+## ✓ infer        0.5.4      ✓ tune         0.1.5 
+## ✓ modeldata    0.1.0      ✓ workflows    0.2.2 
+## ✓ parsnip      0.1.6      ✓ workflowsets 0.0.2 
+## ✓ purrr        0.3.4      ✓ yardstick    0.0.8</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+## x purrr::discard() masks scales::discard()
+## x dplyr::filter()  masks stats::filter()
+## x dplyr::lag()     masks stats::lag()
+## x recipes::step()  masks stats::step()
+## • Use tidymodels_prefer() to resolve common conflicts.</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="anova-tutorial.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<p>There is a profound connection between linear regression and ANOVA. In
+order to see this, you have to understand that the categorical variables
+of an ANOVA can be coded with numbers, which allows them to be used in a
+linear regression model. Let us recall <span class="citation">(<a href="#ref-LinearMod" role="doc-biblioref"><span>“Linear Model”</span> n.d.</a>)</span> the multiple linear
+regression model.</p>
+<p>Given a random sample of <span class="math inline">\(n\)</span> observations
+<span class="math inline">\((Y_{i}, X_{i1}, . . ., X_{ip}),\ i=1,...,n\)</span>, the basic multiple linear regression model is</p>
+<p><span class="math display">\[
+\begin{equation}
+Y_{i}=\beta_0+\beta_1X_{i1}+...+\beta_pX_{ip}+\epsilon_i,\quad i=1,...,n
+\label{eq:linreg}
+\end{equation}
+\]</span></p>
+<p>where each <span class="math inline">\(\epsilon_i\)</span> is a random variable with a mean of <span class="math inline">\(0\)</span>. In
+matrix form, this can be written as</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+Y_1\\
+Y_2\\
+\vdots\\
+Y_n
+\end{bmatrix}
+= 
+\begin{bmatrix}
+1 &amp; X_{1,1} &amp; X_{1,2} &amp; \dots &amp; X_{1, p}\\
+1 &amp; X_{2,1} &amp; X_{2,2} &amp; \dots &amp; X_{2, p}\\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+1 &amp; X_{n,1} &amp; X_{n,2} &amp; \dots &amp; X_{n, p}\\
+\end{bmatrix}
+\begin{bmatrix}
+\beta_0\\
+\beta_1\\
+\vdots\\
+\beta_p\\
+\end{bmatrix}
++
+\begin{bmatrix}
+\epsilon_0\\
+\epsilon_1\\
+\vdots\\
+\epsilon_n\\
+\end{bmatrix}
+\]</span></p>
+<p>Here, the <span class="math inline">\(X_{i,j}\)</span> represent our coded categorical variables. These
+categorical variables are coded according to the hypotheses of interest.
+In many cases, the coding is done so that the newly coded variables are
+contrasts of the old categorical variables.</p>
+<p>A contrast is a linear combination of variables such that the
+coefficients sum to 0.
+<span class="math display">\[\sum_i{a_i\theta_i}\quad\text{such that}\quad\sum_i{a_i}=0\]</span></p>
+<p>Unlike in ANOVA, in regression, it is best to use coding schemes based
+on orthogonal and fractional contrasts. Orthogonal contrasts are a set
+of contrasts in which, for any distinct pair, the sum of the
+cross-products of the coefficients is 0.
+<span class="math display">\[
+\sum_i{a_ib_i}=0
+\]</span></p>
+<p>I believe that a fractional contrast is such that
+<span class="math display">\[
+\sum_i{|a_i|}=2
+\]</span></p>
+<p>Categorical variable coding schemes can be easily expressed in a matrix
+format. The convention is to have the old categorical variables as the
+row headers and the newly coded variables as the column headers. In such
+a matrix, the <span class="math inline">\([c_{ij}]\)</span> entry indicates the value of the <span class="math inline">\(j^{th}\)</span> level
+of the new variable for the <span class="math inline">\(i^{th}\)</span> level of the old variable. Here is
+an example of such a matrix constructed using orthogonal and fractional
+contrasts.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="anova-tutorial.html#cb19-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">contr_mat =</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>),</span>
+<span id="cb19-2"><a href="anova-tutorial.html#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    1  0.5
+## [2,]    0 -1.0
+## [3,]   -1  0.5</code></pre>
+<p>Interpreting this coding scheme in the context of our linear model, we
+see that</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(Y_i|X_{i1}=1,X_{i2}=\tfrac{1}{2}) &amp;= \beta_0+\beta_1+\tfrac{1}{2}\beta_2 &amp;= \mu_1 \\
+E(Y_i|X_{i1}=0,X_{i2}=-1) &amp;= \beta_0-\beta_2 &amp;= \mu_2\\
+E(Y_i|X_{i1}=-1,X_{i2}=\tfrac{1}{2}) &amp;= \beta_0-\beta_1+\tfrac{1}{2}\beta_2 &amp;= \mu_3
+\end{aligned}
+\]</span></p>
+<p>or, in matrix format,
+<span class="math display">\[
+\begin{bmatrix}
+1 &amp; 1 &amp; \tfrac{1}{2} \\
+1 &amp; 0 &amp; -1 \\
+1 &amp; -1 &amp; \tfrac{1}{2}
+\end{bmatrix}
+\begin{bmatrix}
+\beta_0 \\
+\beta_1  \\
+\beta_2 
+\end{bmatrix}
+=
+\begin{bmatrix}
+\mu_1 \\
+\mu_2  \\
+\mu_3 
+\end{bmatrix}
+\]</span></p>
+<p>We can solve this for <span class="math inline">\(\boldsymbol{\beta}\)</span> for interpretation’s sake.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="anova-tutorial.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(<span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(contr_mat)), contr_mat))</span></code></pre></div>
+<pre><code>##           [,1]       [,2]       [,3]
+## [1,] 0.3333333  0.3333333  0.3333333
+## [2,] 0.5000000  0.0000000 -0.5000000
+## [3,] 0.3333333 -0.6666667  0.3333333</code></pre>
+<p>Let’s look at another contrast matrix and see if we can interpret it.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="anova-tutorial.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contr.helmert</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##   [,1] [,2]
+## 1   -1   -1
+## 2    1   -1
+## 3    0    2</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="anova-tutorial.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(<span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">contr.helmert</span>(<span class="at">n =</span> <span class="dv">3</span>)))</span></code></pre></div>
+<pre><code>##               1          2         3
+## [1,]  0.3333333  0.3333333 0.3333333
+## [2,] -0.5000000  0.5000000 0.0000000
+## [3,] -0.1666667 -0.1666667 0.3333333</code></pre>
+<p>Perhaps you have heard of polynomial regression? Polynomial regression
+is just a special case of linear regression in a different basis. In
+polynomial regression, (just like multiple linear regression) if you use
+all of your explanatory variables, then you will likely get
+multi-collinearity problems.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="anova-tutorial.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contr.poly</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##                 .L         .Q
+## [1,] -7.071068e-01  0.4082483
+## [2,] -7.850462e-17 -0.8164966
+## [3,]  7.071068e-01  0.4082483</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="anova-tutorial.html#cb29-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">A =</span> <span class="fu">solve</span>(<span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">contr.poly</span>(<span class="at">n =</span> <span class="dv">3</span>))))</span></code></pre></div>
+<pre><code>##          [,1]       [,2]      [,3]
+##     0.3333333  0.3333333 0.3333333
+## .L -0.7071068  0.0000000 0.7071068
+## .Q  0.4082483 -0.8164966 0.4082483</code></pre>
+<p>The first matrix shows how to code the levels of your categorical
+variable and the second matrix is used for interpretation.</p>
+<p>For example, we can test whether the difference between the means from
+two populations are equal by doing a linear regression or an ANOVA.</p>
+<p>Let’s make up some data and try it!</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="anova-tutorial.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(<span class="st">&quot;src&quot;</span>, <span class="st">&quot;fabricate.R&quot;</span>))</span>
+<span id="cb31-2"><a href="anova-tutorial.html#cb31-2" aria-hidden="true" tabindex="-1"></a>design <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb31-3"><a href="anova-tutorial.html#cb31-3" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">=</span> <span class="fu">fabricate</span>(<span class="at">flr =</span> design)</span></code></pre></div>
+<p>Let’s check out our data.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="anova-tutorial.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a linear model</span></span>
+<span id="cb32-2"><a href="anova-tutorial.html#cb32-2" aria-hidden="true" tabindex="-1"></a>data1_lm_independent_samples <span class="ot">=</span> <span class="fu">lm</span>(response <span class="sc">~</span> group,</span>
+<span id="cb32-3"><a href="anova-tutorial.html#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data1)</span>
+<span id="cb32-4"><a href="anova-tutorial.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb32-5"><a href="anova-tutorial.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data1, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> response, <span class="at">color =</span> <span class="fu">factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="anova-tutorial.html#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="anova-tutorial.html#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">intercept =</span> data1_lm_independent_samples<span class="sc">$</span>coefficients[<span class="dv">1</span>],</span>
+<span id="cb32-8"><a href="anova-tutorial.html#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">slope =</span> data1_lm_independent_samples<span class="sc">$</span>coefficients[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb32-9"><a href="anova-tutorial.html#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Group Comparison from a Regression Standpoint&quot;</span>,</span>
+<span id="cb32-10"><a href="anova-tutorial.html#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">&quot;Group&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Group&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Response&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-11"><a href="anova-tutorial.html#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## Warning: Continuous limits supplied to discrete scale.
+## Did you mean `limits = factor(...)` or `scale_*_continuous()`?</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The way you code your categorical variables in a linear model is
+extremely important. Different codings lead to different interpretations
+of the parameters (betas) in your model. For us, our model is
+<span class="math display">\[
+Y_i = \beta_0+\beta_{i1}X_{i1}+\epsilon_i
+\]</span></p>
+<p>From this, we have
+<span class="math display">\[
+\begin{aligned}
+E(Y_i|X_{i1}=0) &amp;=\beta_0 \\
+E(Y_i|X_{i1}=1) &amp;=\beta_0 + \beta_1
+\end{aligned}
+\]</span></p>
+<p>From which we can derive,</p>
+<p><span class="math display">\[
+\beta_1 = E(Y_i|X_{i1}=1) - E(Y_i|X_{i1}=0)
+\]</span></p>
+<p>So, our slope estimate is the estimated amount by which the mean of
+group1 is above that of the mean of group0.</p>
+<p>Run linear regression</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="anova-tutorial.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data1_lm_independent_samples)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = response ~ group, data = data1)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.7770 -0.8587  0.3310  1.6712  4.6460 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  33.8070     0.8159  41.436   &lt;2e-16 ***
+## group         2.6270     1.1538   2.277   0.0352 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.58 on 18 degrees of freedom
+## Multiple R-squared:  0.2236, Adjusted R-squared:  0.1805 
+## F-statistic: 5.184 on 1 and 18 DF,  p-value: 0.03524</code></pre>
+<p>Run ANOVA</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="anova-tutorial.html#cb36-1" aria-hidden="true" tabindex="-1"></a>data1<span class="sc">$</span>group <span class="ot">=</span> <span class="fu">as.factor</span>(data1<span class="sc">$</span>group)</span>
+<span id="cb36-2"><a href="anova-tutorial.html#cb36-2" aria-hidden="true" tabindex="-1"></a>data1_ANOVA_independent_samples <span class="ot">=</span> <span class="fu">aov</span>(response <span class="sc">~</span> group,</span>
+<span id="cb36-3"><a href="anova-tutorial.html#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data1)</span>
+<span id="cb36-4"><a href="anova-tutorial.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data1_ANOVA_independent_samples)</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## group        1  34.51   34.51   5.184 0.0352 *
+## Residuals   18 119.82    6.66                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Run t-Test</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="anova-tutorial.html#cb38-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">data1_t_test_independent_samples =</span> <span class="fu">t.test</span>(<span class="at">x =</span> data1[data1<span class="sc">$</span>group <span class="sc">==</span></span>
+<span id="cb38-2"><a href="anova-tutorial.html#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="st">&quot;response&quot;</span>], <span class="at">y =</span> data1[data1<span class="sc">$</span>group <span class="sc">==</span> <span class="dv">0</span>, <span class="st">&quot;response&quot;</span>],</span>
+<span id="cb38-3"><a href="anova-tutorial.html#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">paired =</span> <span class="cn">FALSE</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  data1[data1$group == 1, &quot;response&quot;] and data1[data1$group == 0, &quot;response&quot;]
+## t = 2.2768, df = 18, p-value = 0.03524
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.2029061 5.0510939
+## sample estimates:
+## mean of x mean of y 
+##    36.434    33.807</code></pre>
+<p>Notice the similarities.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="anova-tutorial.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confidence interval for the difference in the</span></span>
+<span id="cb40-2"><a href="anova-tutorial.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># means</span></span>
+<span id="cb40-3"><a href="anova-tutorial.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(data1_lm_independent_samples, <span class="st">&quot;group&quot;</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>##           2.5 %   97.5 %
+## group 0.2029061 5.051094</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="anova-tutorial.html#cb42-1" aria-hidden="true" tabindex="-1"></a>data1_t_test_independent_samples<span class="sc">$</span>conf.int</span></code></pre></div>
+<pre><code>## [1] 0.2029061 5.0510939
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="anova-tutorial.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># p-values</span></span>
+<span id="cb44-2"><a href="anova-tutorial.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">summary</span>(data1_lm_independent_samples), <span class="fu">unname</span>(<span class="fu">pf</span>(fstatistic[<span class="dv">1</span>],</span>
+<span id="cb44-3"><a href="anova-tutorial.html#cb44-3" aria-hidden="true" tabindex="-1"></a>    fstatistic[<span class="dv">2</span>], fstatistic[<span class="dv">3</span>], <span class="at">lower.tail =</span> F)))</span></code></pre></div>
+<pre><code>## [1] 0.03524354</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="anova-tutorial.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data1_ANOVA_independent_samples)[[<span class="dv">1</span>]][[<span class="dv">1</span>, <span class="dv">5</span>]]</span></code></pre></div>
+<pre><code>## [1] 0.03524354</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="anova-tutorial.html#cb48-1" aria-hidden="true" tabindex="-1"></a>data1_t_test_independent_samples<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>## [1] 0.03524354</code></pre>
+<p>Now, let’s look at something else. The CO2 data frame has 84 rows and 5
+columns of data from an experiment on the cold tolerance of the grass
+species Echinochloa crus-galli.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="anova-tutorial.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;CO2&quot;</span>)</span>
+<span id="cb50-2"><a href="anova-tutorial.html#cb50-2" aria-hidden="true" tabindex="-1"></a>CO2[<span class="fu">sample</span>(<span class="fu">nrow</span>(CO2), <span class="at">size =</span> <span class="dv">5</span>), ]</span></code></pre></div>
+<pre><code>##    Plant        Type  Treatment conc uptake
+## 70   Mc1 Mississippi    chilled 1000   21.9
+## 84   Mc3 Mississippi    chilled 1000   19.9
+## 75   Mc2 Mississippi    chilled  500   12.5
+## 81   Mc3 Mississippi    chilled  350   17.9
+## 13   Qn2      Quebec nonchilled  675   41.4</code></pre>
+<p>What is a linear model? In the context of linear regression, a linear
+model is a relationship between the responses and the explanatory
+variables that is linear in the parameters.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="anova-tutorial.html#cb52-1" aria-hidden="true" tabindex="-1"></a>CO2_recipe <span class="ot">=</span> <span class="fu">recipe</span>(uptake <span class="sc">~</span> ., <span class="at">data =</span> CO2) <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="anova-tutorial.html#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">step_dummy</span>(<span class="fu">c</span>(<span class="st">&quot;Type&quot;</span>, <span class="st">&quot;Treatment&quot;</span>))</span>
+<span id="cb52-3"><a href="anova-tutorial.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># see contrasts() function</span></span>
+<span id="cb52-4"><a href="anova-tutorial.html#cb52-4" aria-hidden="true" tabindex="-1"></a>CO2_linear_model <span class="ot">=</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-5"><a href="anova-tutorial.html#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>, <span class="at">contrasts =</span> <span class="fu">list</span>(<span class="at">Plant =</span> <span class="st">&quot;contr.poly&quot;</span>))</span>
+<span id="cb52-6"><a href="anova-tutorial.html#cb52-6" aria-hidden="true" tabindex="-1"></a>CO2_workflow <span class="ot">=</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-7"><a href="anova-tutorial.html#cb52-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_model</span>(CO2_linear_model) <span class="sc">%&gt;%</span></span>
+<span id="cb52-8"><a href="anova-tutorial.html#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_recipe</span>(CO2_recipe)</span>
+<span id="cb52-9"><a href="anova-tutorial.html#cb52-9" aria-hidden="true" tabindex="-1"></a>CO2_fit <span class="ot">=</span> CO2_workflow <span class="sc">%&gt;%</span></span>
+<span id="cb52-10"><a href="anova-tutorial.html#cb52-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fit</span>(<span class="at">data =</span> CO2)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="anova-tutorial.html#cb53-1" aria-hidden="true" tabindex="-1"></a>CO2_fit <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="anova-tutorial.html#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull_workflow_fit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="anova-tutorial.html#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 15 x 5
+##    term              estimate std.error statistic   p.value
+##    &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 (Intercept)        19.5      1.17      16.7     2.96e-26
+##  2 Plant.L           -22.9      2.27     -10.1     2.17e-15
+##  3 Plant.Q            -4.62     2.27      -2.03    4.57e- 2
+##  4 Plant.C             4.67     2.27       2.06    4.34e- 2
+##  5 Plant^4             2.34     2.27       1.03    3.06e- 1
+##  6 Plant^5             4.31     2.27       1.90    6.13e- 2
+##  7 Plant^6            -0.0390   2.27      -0.0172  9.86e- 1
+##  8 Plant^7            -2.04     2.27      -0.897   3.73e- 1
+##  9 Plant^8            -3.28     2.27      -1.44    1.53e- 1
+## 10 Plant^9            -9.07     2.27      -4.00    1.56e- 4
+## 11 Plant^10            0.546    2.27       0.241   8.10e- 1
+## 12 Plant^11            1.91     2.27       0.843   4.02e- 1
+## 13 conc                0.0177   0.00223    7.96    1.97e-11
+## 14 Type_Mississippi   NA       NA         NA      NA       
+## 15 Treatment_chilled  NA       NA         NA      NA</code></pre>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+<span>“Linear Model.”</span> n.d. Wikipedia. Accessed May 31, 2021. <a href="https://en.wikipedia.org/wiki/Linear_model">https://en.wikipedia.org/wiki/Linear_model</a>.
+</div>
+<div class="csl-entry">
+Xie, Yihui. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.
+</div>
+<div class="csl-entry">
+———. 2021. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
+</div>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-LinearMod" class="csl-entry">
+<span>“Linear Model.”</span> n.d. Wikipedia. Accessed May 31, 2021. <a href="https://en.wikipedia.org/wiki/Linear_model">https://en.wikipedia.org/wiki/Linear_model</a>.
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="regression-and-categorical-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="references.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
