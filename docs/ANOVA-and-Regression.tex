@@ -137,30 +137,17 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{prerequisites}{%
-\chapter*{Prerequisites}\label{prerequisites}}
-\addcontentsline{toc}{chapter}{Prerequisites}
+\hypertarget{preface}{%
+\chapter*{Preface}\label{preface}}
+\addcontentsline{toc}{chapter}{Preface}
 
 This project is meant to be a personal guide to ANOVA and regression. The scope of this project does not include time series analysis. Also, the focus will not be on designing experiments, but rather on analyzing the data from experiments which have already been conducted. To accomplish this, we will use simulated experimental data.
 
-\textbf{Disclaimer}
+\textbf{Disclaimer}\\
 This project was not written by an expert. That being said, I would appreciate any comments.
 
-This book is written in \textbf{Markdown}. You can use anything that Pandoc's Markdown supports, e.g., a math equation \(a^2 + b^2 = c^2\).
-
-The \textbf{bookdown} package can be installed from CRAN or Github:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{install.packages}\NormalTok{(}\StringTok{"bookdown"}\NormalTok{)}
-\CommentTok{\# or the development version}
-\CommentTok{\# devtools::install\_github("rstudio/bookdown")}
-\end{Highlighting}
-\end{Shaded}
-
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading \texttt{\#}.
-
-To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): \url{https://yihui.name/tinytex/}.
+\textbf{Note}
+This book was constructed with the \textbf{bookdown} package \autocite{R-bookdown}, which was built on top of R Markdown and \textbf{knitr} \autocite{xie2015}.
 
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
@@ -231,8 +218,6 @@ Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
 \end{tabular}
 \end{table}
 
-You can write citations, too. For example, we are using the \textbf{bookdown} package \autocite{R-bookdown} in this sample book, which was built on top of R Markdown and \textbf{knitr} \autocite{xie2015}.
-
 \hypertarget{literature}{%
 \chapter{Literature}\label{literature}}
 
@@ -259,8 +244,26 @@ Some \emph{significant} applications are demonstrated in this chapter.
 
 We have finished a nice book.
 
-\hypertarget{anova-tutorial}{%
-\chapter{ANOVA Tutorial}\label{anova-tutorial}}
+\hypertarget{anova-fun}{%
+\chapter{ANOVA Fundamentals}\label{anova-fun}}
+
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+
+Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze the differences among means. ANOVA is based on the law of total variance, where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.\autocite{ANOVA}
+
+\hypertarget{law-of-total-variance}{%
+\section{Law of Total Variance}\label{law-of-total-variance}}
+
+The law of total variance, also known as EVE's law \autocite{EVE}, is
+
+\begin{equation}
+\label{eqn:EVE}
+\mathrm{Var}(Y) = \mathrm{E}[\mathrm{Var}(Y|X)] + \mathrm{Var}(\mathrm{E}[Y|X])
+\end{equation}
+
+As mentioned in \ref{eqn:EVE}, we see that\ldots{}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -335,7 +338,7 @@ A variance-stabilizing transformation of the response variable may help.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-5-1.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-3-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -343,7 +346,7 @@ A variance-stabilizing transformation of the response variable may help.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-5-2.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-3-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -670,7 +673,7 @@ Let's check out our data.
 ## Did you mean `limits = factor(...)` or `scale_*_continuous()`?
 \end{verbatim}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-12-1.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 The way you code your categorical variables in a linear model is
 extremely important. Different codings lead to different interpretations
