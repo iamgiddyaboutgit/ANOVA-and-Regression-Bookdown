@@ -4,27 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Introduction | A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <title>Chapter 2 Introduction | Regression and ANOVA</title>
+  <meta name="description" content="This is a guide to ANOVA and regression and the connections between them." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Introduction | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 2 Introduction | Regression and ANOVA" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta property="og:description" content="This is a guide to ANOVA and regression and the connections between them." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Introduction | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 2 Introduction | Regression and ANOVA" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="This is a guide to ANOVA and regression and the connections between them." />
   
 
-<meta name="author" content="Yihui Xie" />
+<meta name="author" content="Justin Patterson" />
 
 
-<meta name="date" content="2021-06-07" />
+<meta name="date" content="2021-06-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,17 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage{longtable}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
 
 
 <style type="text/css">
@@ -170,6 +181,20 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="anova-tutorial.html"><a href="anova-tutorial.html"><i class="fa fa-check"></i><b>7</b> ANOVA Tutorial</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#step-1-make-up-data"><i class="fa fa-check"></i><b>7.1</b> Step 1: Make up Data</a></li>
+<li class="chapter" data-level="7.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-the-assumptions"><i class="fa fa-check"></i><b>7.2</b> Checking the Assumptions</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-1"><i class="fa fa-check"></i><b>7.2.1</b> Checking Assumption 1</a></li>
+<li class="chapter" data-level="7.2.2" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-1-was-violated."><i class="fa fa-check"></i><b>7.2.2</b> Assumption 1 was violated.</a></li>
+<li class="chapter" data-level="7.2.3" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-2"><i class="fa fa-check"></i><b>7.2.3</b> Checking Assumption 2</a></li>
+<li class="chapter" data-level="7.2.4" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-2-was-violated."><i class="fa fa-check"></i><b>7.2.4</b> Assumption 2 was violated.</a></li>
+<li class="chapter" data-level="7.2.5" data-path="anova-tutorial.html"><a href="anova-tutorial.html#checking-assumption-3"><i class="fa fa-check"></i><b>7.2.5</b> Checking Assumption 3</a></li>
+<li class="chapter" data-level="7.2.6" data-path="anova-tutorial.html"><a href="anova-tutorial.html#assumption-3-was-violated."><i class="fa fa-check"></i><b>7.2.6</b> Assumption 3 was violated.</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="anova-tutorial.html"><a href="anova-tutorial.html#regression-and-categorical-variables"><i class="fa fa-check"></i><b>7.3</b> Regression and Categorical Variables</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -182,7 +207,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression and ANOVA</a>
           </h1>
         </div>
 
