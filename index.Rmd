@@ -1,20 +1,25 @@
 --- 
-title: "A Minimal Book Example"
-author: "Yihui Xie"
+title: "Regression and ANOVA"
+author: "Justin Patterson"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib, packages.bib]
-biblio-style: apalike
+citation-style: nature.csl
 link-citations: yes
 github-repo: rstudio/bookdown-demo
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+description: "This is a guide to ANOVA and regression and the connections between them."
 ---
 
-# Prerequisites
+# Prerequisites {-}
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+This project is meant to be a personal guide to ANOVA and regression. The scope of this project does not include time series analysis. Also, the focus will not be on designing experiments, but rather on analyzing the data from experiments which have already been conducted. To accomplish this, we will use simulated experimental data.
+
+**Disclaimer**
+This project was not written by an expert. That being said, I would appreciate any comments.
+
+This book is written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
 
 The **bookdown** package can be installed from CRAN or Github:
 
