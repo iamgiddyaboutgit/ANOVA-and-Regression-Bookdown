@@ -2,17 +2,33 @@
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
-Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze the differences among means.  ANOVA is based on the law of total variance, where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.[@ANOVA]
+Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze the differences among means.  ANOVA is based on the *Law of Total Variance* (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.[@ANOVA]
 
-## Law of Total Variance
-The law of total variance, also known as EVE's law [@EVE], is 
+## Law of Total Variance \label{EVE}
+The law of total variance, also known as EVE's law [@EVE][@EVE-intuition], is very important for understanding how ANOVA works.  
 
 \begin{equation}
 \label{eqn:EVE}
-\Var(Y) = \E[\Var(Y|X)] + \Var(\E[Y|X])
+\Var(Y) = \E[\Var(Y|\symbfup{X})] + \Var[\E(Y|\symbfup{X})]
 \end{equation}
 
-As mentioned in \ref{eqn:EVE}, we see that...
+In the context of ANOVA with a response variable \(Y\) and a covariate vector \(\symbfup{X}\), \ref{eqn:EVE} can be interpreted as
+
+\begin{equation}
+\label{eqn:EVE2}
+\Var(Y) = \underbrace{\E[\Var(Y|\symbfup{X})]}_{\text{variance of Y within X}} + \underbrace{\Var[\E(Y|\symbfup{X})]}_{\text{variance of Y between X}}
+\end{equation}
+
+Recall [@variance] that the population variance of a finite population of size N is
+
+\begin{equation}
+\label{eqn:pop_var}
+\sigma^2 = \frac{1}{N} \underbrace{\sum_{i = 1}^{N} \left(x_i-\mu\right)^2}_{\text{SS}}
+\end{equation}
+
+where the sum is known as a sum of squares (SS).  It is easy to see that both sides of \ref{eqn:EVE2} can be multiplied by \(N\) to give a relationship among sums of squares.  The resulting relationship is known as a partition of the sum of squares. [@partition_of_SS]
+
+The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.  
 
 ```{r}
 library(cellWise)
