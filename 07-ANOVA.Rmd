@@ -28,6 +28,11 @@ Recall [@variance] that the population variance of a finite population of size N
 
 where the sum is known as a sum of squares (SS).  It is easy to see that both sides of \ref{eqn:EVE2} can be multiplied by \(N\) to give a relationship among sums of squares.  The resulting relationship is known as a partition of the sum of squares. [@partition_of_SS]
 
+
+```{r}
+source(file.path("src", "law-of-total-variance-sim.R"))
+```
+
 The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.  
 
 ```{r}

@@ -277,7 +277,26 @@ Recall \autocite{variance} that the population variance of a finite population o
 \sigma^2 = \frac{1}{N} \underbrace{\sum_{i = 1}^{N} \left(x_i-\mu\right)^2}_{\text{SS}}
 \end{equation}
 
-where the summation is known as a sum of squares (SS). It is easy to see that both sides of \ref{eqn:EVE2} can be multiplied by \(N\) to give a relationship among sums of squares. The resulting relationship is known as a partition of the sum of squares. \autocite{partition_of_SS}
+where the sum is known as a sum of squares (SS). It is easy to see that both sides of \ref{eqn:EVE2} can be multiplied by \(N\) to give a relationship among sums of squares. The resulting relationship is known as a partition of the sum of squares. \autocite{partition_of_SS}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{source}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(}\StringTok{"src"}\NormalTok{, }\StringTok{"law{-}of{-}total{-}variance{-}sim.R"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "If we group Y by X, then we might understand Y's variability better."
+\end{verbatim}
+
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{verbatim}
+## [1] "The population variance of Y is 4.01785074652354"
+## [1] "The population variance of Y within X is 0.867547839457478"
+## [1] "The population variance of Y between X is 3.15030290706606"
+## [1] "The variance of Y = the variance of Y within X + the variance of Y between X (4.018 = 0.868 + 3.15)"
+\end{verbatim}
 
 The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.
 
@@ -354,7 +373,7 @@ A variance-stabilizing transformation of the response variable may help.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-3-1.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-4-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -362,7 +381,7 @@ A variance-stabilizing transformation of the response variable may help.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-3-2.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-4-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -689,7 +708,7 @@ Let's check out our data.
 ## Did you mean `limits = factor(...)` or `scale_*_continuous()`?
 \end{verbatim}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-10-1.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 The way you code your categorical variables in a linear model is
 extremely important. Different codings lead to different interpretations
@@ -729,19 +748,19 @@ Run linear regression
 ## lm(formula = response ~ group, data = data1)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -6.7770 -0.8587  0.3310  1.6712  4.6460 
+##    Min     1Q Median     3Q    Max 
+## -5.457 -1.813 -0.637  1.254  7.243 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  33.8070     0.8159  41.436   <2e-16 ***
-## group         2.6270     1.1538   2.277   0.0352 *  
+## (Intercept)   79.667      1.048   75.99   <2e-16 ***
+## group         -1.245      1.483   -0.84    0.412    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.58 on 18 degrees of freedom
-## Multiple R-squared:  0.2236, Adjusted R-squared:  0.1805 
-## F-statistic: 5.184 on 1 and 18 DF,  p-value: 0.03524
+## Residual standard error: 3.315 on 18 degrees of freedom
+## Multiple R-squared:  0.0377, Adjusted R-squared:  -0.01577 
+## F-statistic: 0.7051 on 1 and 18 DF,  p-value: 0.4121
 \end{verbatim}
 
 Run ANOVA
@@ -756,11 +775,9 @@ Run ANOVA
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value Pr(>F)  
-## group        1  34.51   34.51   5.184 0.0352 *
-## Residuals   18 119.82    6.66                 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## group        1   7.75    7.75   0.705  0.412
+## Residuals   18 197.85   10.99
 \end{verbatim}
 
 Run t-Test
@@ -778,13 +795,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = 2.2768, df = 18, p-value = 0.03524
+## t = -0.8397, df = 18, p-value = 0.4121
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.2029061 5.0510939
+##  -4.359965  1.869965
 ## sample estimates:
 ## mean of x mean of y 
-##    36.434    33.807
+##    78.422    79.667
 \end{verbatim}
 
 Notice the similarities.
@@ -799,7 +816,7 @@ Notice the similarities.
 
 \begin{verbatim}
 ##           2.5 %   97.5 %
-## group 0.2029061 5.051094
+## group -4.359965 1.869965
 \end{verbatim}
 
 \begin{Shaded}
@@ -809,7 +826,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2029061 5.0510939
+## [1] -4.359965  1.869965
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -823,7 +840,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03524354
+## [1] 0.412089
 \end{verbatim}
 
 \begin{Shaded}
@@ -833,7 +850,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03524354
+## [1] 0.412089
 \end{verbatim}
 
 \begin{Shaded}
@@ -843,7 +860,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03524354
+## [1] 0.412089
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -859,11 +876,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 70   Mc1 Mississippi    chilled 1000   21.9
-## 84   Mc3 Mississippi    chilled 1000   19.9
-## 75   Mc2 Mississippi    chilled  500   12.5
-## 81   Mc3 Mississippi    chilled  350   17.9
-## 13   Qn2      Quebec nonchilled  675   41.4
+## 15   Qn3      Quebec nonchilled   95   16.2
+## 78   Mc3 Mississippi    chilled   95   10.6
+## 46   Mn1 Mississippi nonchilled  350   30.0
+## 10   Qn2      Quebec nonchilled  250   37.1
+## 18   Qn3      Quebec nonchilled  350   42.1
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear
