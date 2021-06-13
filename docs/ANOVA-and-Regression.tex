@@ -128,7 +128,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-11}
+\date{2021-06-12}
 
 \begin{document}
 \maketitle
@@ -251,33 +251,42 @@ We have finished a nice book.
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
 
-Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze the differences among means. ANOVA is based on the \emph{Law of Total Variance} (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.\autocite{ANOVA}
+Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to compare means. It may be difficult for the neophyte to understand, but ANOVA compares means by analyzing variances. ANOVA is based on the \emph{Law of Total Variance} (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.\autocite{ANOVA}
 
 \hypertarget{law-of-total-variance}{%
 \section{\texorpdfstring{Law of Total Variance \label{EVE}}{Law of Total Variance }}\label{law-of-total-variance}}
 
-The law of total variance, also known as EVE's law \autocite{EVE}\autocite{EVE-intuition}, is very important for understanding how ANOVA works.
+The law of total variance, also known as EVE's law \autocite{EVE}\autocite{EVE-intuition}, is very important for understanding how ANOVA works. The law says that for random variables \(X\) and \(Y\) we have
 
 \begin{equation}
 \label{eqn:EVE}
-\mathrm{Var}(Y) = \mathrm{E}[\mathrm{Var}(Y|\symbfup{X})] + \mathrm{Var}[\mathrm{E}(Y|\symbfup{X})]
+\mathrm{Var}(Y) = \mathrm{E}[\mathrm{Var}(Y|X)] + \mathrm{Var}[\mathrm{E}(Y|X)].
 \end{equation}
 
-In the context of ANOVA with a response variable \(Y\) and a covariate vector \(\symbfup{X}\), \ref{eqn:EVE} can be interpreted as
+In the context of ANOVA, we will have a random response variable \(Y\) and a random variable \(G\) which indicates the number of the group that we are talking about. Using this notation, \ref{eqn:EVE} can be interpreted as
 
 \begin{equation}
 \label{eqn:EVE2}
-\mathrm{Var}(Y) = \underbrace{\mathrm{E}[\mathrm{Var}(Y|\symbfup{X})]}_{\text{variance of Y within X}} + \underbrace{\mathrm{Var}[\mathrm{E}(Y|\symbfup{X})]}_{\text{variance of Y between X}}
+\mathrm{Var}(Y) = \underbrace{\mathrm{E}[\mathrm{Var}(Y|G)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\mathrm{Var}[\mathrm{E}(Y|G)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
 \end{equation}
 
-Recall \autocite{variance} that the population variance of a finite population of size N is
+Recall \autocite{variance} that the population variance of a finite population of size \(N\) with values \(y_i\) and mean \(\mu\) is
 
 \begin{equation}
 \label{eqn:pop_var}
-\sigma^2 = \frac{1}{N} \underbrace{\sum_{i = 1}^{N} \left(x_i-\mu\right)^2}_{\text{SS}}
+\sigma^2 = \frac{1}{N} \underbrace{\sum_{i = 1}^{N} \left(y_i-\mu\right)^2}_{\text{SS}}
 \end{equation}
 
-where the sum is known as a sum of squares (SS). It is easy to see that both sides of \ref{eqn:EVE2} can be multiplied by \(N\) to give a relationship among sums of squares. The resulting relationship is known as a partition of the sum of squares. \autocite{partition_of_SS}
+where the sum is known as a sum of squares (SS).
+
+Suppose that we have a random response variable \(Y_{ij}\) where the subscript indicates that we have observed this \(j^{th}\) response for the \(i^{th}\) group. Then \ref{eqn:EVE2} can be rewritten using the definitions of the mean and variance of a population as
+
+\begin{equation}
+\label{eqn:EVE3}
+\frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{\bar{y}} \right) = \frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{y}_{i\cdot} \right) + \sum_{i = 1}^{k} \frac{n_i}{N}\left(\bar{y}_{i\cdot} - \bar{\bar{y}} \right)^2 
+\end{equation}
+
+It is easy to see that both sides of \ref{eqn:EVE3} can be multiplied by \(N\) to give a relationship among sums of squares. The resulting relationship is known as a partition of the sum of squares. \autocite{partition_of_SS}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -292,10 +301,10 @@ where the sum is known as a sum of squares (SS). It is easy to see that both sid
 \includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-1-1.pdf}
 
 \begin{verbatim}
-## [1] "The population variance of Y is 4.01785074652354"
-## [1] "The population variance of Y within X is 0.867547839457478"
-## [1] "The population variance of Y between X is 3.15030290706606"
-## [1] "The variance of Y = the variance of Y within X + the variance of Y between X (4.018 = 0.868 + 3.15)"
+## [1] "The population variance of Y is 3.90430033001671"
+## [1] "The population variance of Y within X is 1.02394306625671"
+## [1] "The population variance of Y between X is 2.88035726376"
+## [1] "The variance of Y = the variance of Y within X + the variance of Y between X (3.904 = 1.024 + 2.88)"
 \end{verbatim}
 
 The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.
@@ -749,18 +758,18 @@ Run linear regression
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -5.457 -1.813 -0.637  1.254  7.243 
+## -3.791 -1.318 -0.171  1.613  4.469 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   79.667      1.048   75.99   <2e-16 ***
-## group         -1.245      1.483   -0.84    0.412    
+## (Intercept)  13.4210     0.7432  18.059 5.57e-13 ***
+## group        -3.9340     1.0510  -3.743  0.00149 ** 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 3.315 on 18 degrees of freedom
-## Multiple R-squared:  0.0377, Adjusted R-squared:  -0.01577 
-## F-statistic: 0.7051 on 1 and 18 DF,  p-value: 0.4121
+## Residual standard error: 2.35 on 18 degrees of freedom
+## Multiple R-squared:  0.4377, Adjusted R-squared:  0.4064 
+## F-statistic: 14.01 on 1 and 18 DF,  p-value: 0.001489
 \end{verbatim}
 
 Run ANOVA
@@ -775,9 +784,11 @@ Run ANOVA
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value Pr(>F)
-## group        1   7.75    7.75   0.705  0.412
-## Residuals   18 197.85   10.99
+##             Df Sum Sq Mean Sq F value  Pr(>F)   
+## group        1  77.38   77.38   14.01 0.00149 **
+## Residuals   18  99.41    5.52                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
 Run t-Test
@@ -795,13 +806,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = -0.8397, df = 18, p-value = 0.4121
+## t = -3.7431, df = 18, p-value = 0.001489
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -4.359965  1.869965
+##  -6.142078 -1.725922
 ## sample estimates:
 ## mean of x mean of y 
-##    78.422    79.667
+##     9.487    13.421
 \end{verbatim}
 
 Notice the similarities.
@@ -815,8 +826,8 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-##           2.5 %   97.5 %
-## group -4.359965 1.869965
+##           2.5 %    97.5 %
+## group -6.142078 -1.725922
 \end{verbatim}
 
 \begin{Shaded}
@@ -826,7 +837,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -4.359965  1.869965
+## [1] -6.142078 -1.725922
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -840,7 +851,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.412089
+## [1] 0.001488698
 \end{verbatim}
 
 \begin{Shaded}
@@ -850,7 +861,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.412089
+## [1] 0.001488698
 \end{verbatim}
 
 \begin{Shaded}
@@ -860,7 +871,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.412089
+## [1] 0.001488698
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -876,11 +887,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 15   Qn3      Quebec nonchilled   95   16.2
-## 78   Mc3 Mississippi    chilled   95   10.6
-## 46   Mn1 Mississippi nonchilled  350   30.0
-## 10   Qn2      Quebec nonchilled  250   37.1
+## 68   Mc1 Mississippi    chilled  500   19.5
+## 66   Mc1 Mississippi    chilled  250   18.1
 ## 18   Qn3      Quebec nonchilled  350   42.1
+## 78   Mc3 Mississippi    chilled   95   10.6
+## 14   Qn2      Quebec nonchilled 1000   44.3
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear

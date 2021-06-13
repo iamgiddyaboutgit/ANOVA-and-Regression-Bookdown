@@ -2,31 +2,40 @@
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
-Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze the differences among means.  ANOVA is based on the *Law of Total Variance* (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.[@ANOVA]
+Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to compare means.  It may be difficult for the neophyte to understand, but ANOVA compares means by analyzing variances.  ANOVA is based on the *Law of Total Variance* (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.[@ANOVA]
 
 ## Law of Total Variance \label{EVE}
-The law of total variance, also known as EVE's law [@EVE][@EVE-intuition], is very important for understanding how ANOVA works.  
+The law of total variance, also known as EVE's law [@EVE][@EVE-intuition], is very important for understanding how ANOVA works.  The law says that for random variables \(X\) and \(Y\) we have
 
 \begin{equation}
 \label{eqn:EVE}
-\Var(Y) = \E[\Var(Y|\symbfup{X})] + \Var[\E(Y|\symbfup{X})]
+\Var(Y) = \E[\Var(Y|X)] + \Var[\E(Y|X)].
 \end{equation}
 
-In the context of ANOVA with a response variable \(Y\) and a covariate vector \(\symbfup{X}\), \ref{eqn:EVE} can be interpreted as
+In the context of ANOVA, we will have a random response variable \(Y\) and a random variable \(G\) which indicates the number of the group that we are talking about.  Using this notation, \ref{eqn:EVE} can be interpreted as
 
 \begin{equation}
 \label{eqn:EVE2}
-\Var(Y) = \underbrace{\E[\Var(Y|\symbfup{X})]}_{\text{variance of Y within X}} + \underbrace{\Var[\E(Y|\symbfup{X})]}_{\text{variance of Y between X}}
+\Var(Y) = \underbrace{\E[\Var(Y|G)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\Var[\E(Y|G)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
 \end{equation}
 
-Recall [@variance] that the population variance of a finite population of size N is
+Recall [@variance] that the population variance of a finite population of size \(N\) with values \(y_i\) and mean \(\mu\) is
 
 \begin{equation}
 \label{eqn:pop_var}
-\sigma^2 = \frac{1}{N} \underbrace{\sum_{i = 1}^{N} \left(x_i-\mu\right)^2}_{\text{SS}}
+\sigma^2 = \frac{1}{N} \underbrace{\sum_{i = 1}^{N} \left(y_i-\mu\right)^2}_{\text{SS}}
 \end{equation}
 
-where the sum is known as a sum of squares (SS).  It is easy to see that both sides of \ref{eqn:EVE2} can be multiplied by \(N\) to give a relationship among sums of squares.  The resulting relationship is known as a partition of the sum of squares. [@partition_of_SS]
+where the sum is known as a sum of squares (SS).  
+
+Suppose that we have a random response variable \(Y_{ij}\) where the subscript indicates that we have observed this \(j^{th}\) response for the \(i^{th}\) group.  Then \ref{eqn:EVE2} can be rewritten using the definitions of the mean and variance of a population as
+
+\begin{equation}
+\label{eqn:EVE3}
+\frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{\bar{y}} \right) = \frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{y}_{i\cdot} \right) + \sum_{i = 1}^{k} \frac{n_i}{N}\left(\bar{y}_{i\cdot} - \bar{\bar{y}} \right)^2 
+\end{equation}
+
+It is easy to see that both sides of \ref{eqn:EVE3} can be multiplied by \(N\) to give a relationship among sums of squares.  The resulting relationship is known as a partition of the sum of squares. [@partition_of_SS]
 
 
 ```{r}
