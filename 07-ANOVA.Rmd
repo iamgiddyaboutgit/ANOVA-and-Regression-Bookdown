@@ -12,12 +12,43 @@ The law of total variance, also known as EVE's law [@EVE][@EVE-intuition], is ve
 \Var(Y) = \E[\Var(Y|X)] + \Var[\E(Y|X)].
 \end{equation}
 
-In the context of ANOVA, we will have a random response variable \(Y\) and a random variable \(G\) which indicates the number of the group that we are talking about.  Using this notation, \ref{eqn:EVE} can be interpreted as
+Let us consider the case of One-way ANOVA using Fixed Effects.  We observe the random variable \(Y_{ij}\), the \(j^{th}\) response for the \(i^{th}\) level of the single factor.   Let \(A_i\) be the event where the \(i^{th}\) level of this factor is observed.  Then \ref{eqn:EVE} can be interpreted as
 
 \begin{equation}
 \label{eqn:EVE2}
-\Var(Y) = \underbrace{\E[\Var(Y|G)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\Var[\E(Y|G)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
+\Var(Y_{ij}) = \underbrace{\E[\Var(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\Var[\E(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
 \end{equation}
+
+Can \ref{eqn:EVE2} be simplified into something computationally useful for our ANOVA?
+
+\begin{equation}
+\label{eqn:EVE2.1}
+\E(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} y_{ij} \frac{1}{n_i} = \bar{y}_{i \cdot}
+\end{equation}
+
+\begin{equation}
+\label{eqn:EVE2.2}
+\Var(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i}
+\end{equation}
+
+\begin{equation}
+\label{eqn:EVE2.3}
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 \frac{1}{N} = \sum_{i=1}^{k} \left( \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i} \right) \frac{n_i}{N} +
+\sum_{i=1}^{k} \left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 \frac{n_i}{N}
+\end{equation}
+
+After multiplying both sides by \(N\), we have this partition of the \(\text{SS}\)
+
+\begin{equation}
+\label{eqn:EVE2.4}
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 +
+\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 
+\end{equation}
+
+
+Recall [@expected_val] the definition of the mean of a population.  Let \(X\) be a random variable with a finite number of finite outcomes \
+
+Recall [@conditional_expected_val1][@conditional_expected_val2] the definition of the expected value of a continuous random variable conditioned on an event.
 
 Recall [@variance] that the population variance of a finite population of size \(N\) with values \(y_i\) and mean \(\mu\) is
 

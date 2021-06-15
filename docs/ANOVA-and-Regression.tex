@@ -128,7 +128,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-12}
+\date{2021-06-14}
 
 \begin{document}
 \maketitle
@@ -263,12 +263,42 @@ The law of total variance, also known as EVE's law \autocite{EVE}\autocite{EVE-i
 \mathrm{Var}(Y) = \mathrm{E}[\mathrm{Var}(Y|X)] + \mathrm{Var}[\mathrm{E}(Y|X)].
 \end{equation}
 
-In the context of ANOVA, we will have a random response variable \(Y\) and a random variable \(G\) which indicates the number of the group that we are talking about. Using this notation, \ref{eqn:EVE} can be interpreted as
+Let us consider the case of One-way ANOVA using Fixed Effects. We observe the random variable \(Y_{ij}\), the \(j^{th}\) response for the \(i^{th}\) level of the single factor. Let \(A_i\) be the event where the \(i^{th}\) level of this factor is observed. Then \ref{eqn:EVE} can be interpreted as
 
 \begin{equation}
 \label{eqn:EVE2}
-\mathrm{Var}(Y) = \underbrace{\mathrm{E}[\mathrm{Var}(Y|G)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\mathrm{Var}[\mathrm{E}(Y|G)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
+\mathrm{Var}(Y_{ij}) = \underbrace{\mathrm{E}[\mathrm{Var}(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\mathrm{Var}[\mathrm{E}(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
 \end{equation}
+
+Can \ref{eqn:EVE2} be simplified into something computationally useful for our ANOVA?
+
+\begin{equation}
+\label{eqn:EVE2.1}
+\mathrm{E}(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} y_{ij} \frac{1}{n_i} = \bar{y}_{i \cdot}
+\end{equation}
+
+\begin{equation}
+\label{eqn:EVE2.2}
+\mathrm{Var}(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i}
+\end{equation}
+
+\begin{equation}
+\label{eqn:EVE2.3}
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 \frac{1}{N} = \sum_{i=1}^{k} \left( \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i} \right) \frac{n_i}{N} +
+\sum_{i=1}^{k} \left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 \frac{n_i}{N}
+\end{equation}
+
+After multiplying both sides by \(N\), we have this partition of the \(\text{SS}\)
+
+\begin{equation}
+\label{eqn:EVE2.4}
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 +
+\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 
+\end{equation}
+
+Recall \autocite{expected_val} the definition of the mean of a population. Let \(X\) be a random variable with a finite number of finite outcomes\\
+
+Recall \autocite{conditional_expected_val1}\autocite{conditional_expected_val2} the definition of the expected value of a continuous random variable conditioned on an event.
 
 Recall \autocite{variance} that the population variance of a finite population of size \(N\) with values \(y_i\) and mean \(\mu\) is
 
@@ -301,10 +331,10 @@ It is easy to see that both sides of \ref{eqn:EVE3} can be multiplied by \(N\) t
 \includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-1-1.pdf}
 
 \begin{verbatim}
-## [1] "The population variance of Y is 3.90430033001671"
-## [1] "The population variance of Y within X is 1.02394306625671"
-## [1] "The population variance of Y between X is 2.88035726376"
-## [1] "The variance of Y = the variance of Y within X + the variance of Y between X (3.904 = 1.024 + 2.88)"
+## [1] "The population variance of Y is 4.08837570328874"
+## [1] "The population variance of Y within X is 1.01360442688087"
+## [1] "The population variance of Y between X is 3.07477127640787"
+## [1] "The variance of Y = the variance of Y within X + the variance of Y between X (4.088 = 1.014 + 3.075)"
 \end{verbatim}
 
 The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.
@@ -758,18 +788,18 @@ Run linear regression
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -3.791 -1.318 -0.171  1.613  4.469 
+## -6.413 -2.943  1.656  2.686  5.906 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  13.4210     0.7432  18.059 5.57e-13 ***
-## group        -3.9340     1.0510  -3.743  0.00149 ** 
+## (Intercept)   84.003      1.184  70.956  < 2e-16 ***
+## group          6.721      1.674   4.014 0.000813 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.35 on 18 degrees of freedom
-## Multiple R-squared:  0.4377, Adjusted R-squared:  0.4064 
-## F-statistic: 14.01 on 1 and 18 DF,  p-value: 0.001489
+## Residual standard error: 3.744 on 18 degrees of freedom
+## Multiple R-squared:  0.4724, Adjusted R-squared:  0.4431 
+## F-statistic: 16.11 on 1 and 18 DF,  p-value: 0.0008134
 \end{verbatim}
 
 Run ANOVA
@@ -784,9 +814,9 @@ Run ANOVA
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value  Pr(>F)   
-## group        1  77.38   77.38   14.01 0.00149 **
-## Residuals   18  99.41    5.52                   
+##             Df Sum Sq Mean Sq F value   Pr(>F)    
+## group        1  225.9  225.86   16.11 0.000813 ***
+## Residuals   18  252.3   14.02                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -806,13 +836,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = -3.7431, df = 18, p-value = 0.001489
+## t = 4.0143, df = 18, p-value = 0.0008134
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -6.142078 -1.725922
+##   3.203542 10.238458
 ## sample estimates:
 ## mean of x mean of y 
-##     9.487    13.421
+##    90.724    84.003
 \end{verbatim}
 
 Notice the similarities.
@@ -826,8 +856,8 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-##           2.5 %    97.5 %
-## group -6.142078 -1.725922
+##          2.5 %   97.5 %
+## group 3.203542 10.23846
 \end{verbatim}
 
 \begin{Shaded}
@@ -837,7 +867,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -6.142078 -1.725922
+## [1]  3.203542 10.238458
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -851,7 +881,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.001488698
+## [1] 0.0008134196
 \end{verbatim}
 
 \begin{Shaded}
@@ -861,7 +891,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.001488698
+## [1] 0.0008134196
 \end{verbatim}
 
 \begin{Shaded}
@@ -871,7 +901,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.001488698
+## [1] 0.0008134196
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -887,11 +917,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 68   Mc1 Mississippi    chilled  500   19.5
-## 66   Mc1 Mississippi    chilled  250   18.1
-## 18   Qn3      Quebec nonchilled  350   42.1
-## 78   Mc3 Mississippi    chilled   95   10.6
-## 14   Qn2      Quebec nonchilled 1000   44.3
+## 16   Qn3      Quebec nonchilled  175   32.4
+## 63   Mn3 Mississippi nonchilled 1000   27.8
+## 28   Qc1      Quebec    chilled 1000   38.7
+## 69   Mc1 Mississippi    chilled  675   22.2
+## 48   Mn1 Mississippi nonchilled  675   32.4
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear
