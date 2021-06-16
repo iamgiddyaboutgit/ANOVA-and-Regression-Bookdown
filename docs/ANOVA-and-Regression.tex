@@ -128,7 +128,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-14}
+\date{2021-06-15}
 
 \begin{document}
 \maketitle
@@ -256,7 +256,7 @@ Analysis of variance (ANOVA) is a collection of statistical models and their ass
 \hypertarget{law-of-total-variance}{%
 \section{\texorpdfstring{Law of Total Variance \label{EVE}}{Law of Total Variance }}\label{law-of-total-variance}}
 
-The law of total variance, also known as EVE's law \autocite{EVE}\autocite{EVE-intuition}, is very important for understanding how ANOVA works. The law says that for random variables \(X\) and \(Y\) we have
+The law of total variance, also known as EVE's law \autocite{EVE}\autocite{EVE-intuition}, is very important for understanding how ANOVA works. The law says that for random variables \(X\) and \(Y\) on the same probability space, we have
 
 \begin{equation}
 \label{eqn:EVE}
@@ -309,33 +309,51 @@ Recall \autocite{variance} that the population variance of a finite population o
 
 where the sum is known as a sum of squares (SS).
 
-Suppose that we have a random response variable \(Y_{ij}\) where the subscript indicates that we have observed this \(j^{th}\) response for the \(i^{th}\) group. Then \ref{eqn:EVE2} can be rewritten using the definitions of the mean and variance of a population as
+\hypertarget{partitioning-the-ss}{%
+\section{Partitioning the SS}\label{partitioning-the-ss}}
 
-\begin{equation}
-\label{eqn:EVE3}
-\frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{\bar{y}} \right) = \frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{y}_{i\cdot} \right) + \sum_{i = 1}^{k} \frac{n_i}{N}\left(\bar{y}_{i\cdot} - \bar{\bar{y}} \right)^2 
-\end{equation}
-
-It is easy to see that both sides of \ref{eqn:EVE3} can be multiplied by \(N\) to give a relationship among sums of squares. The resulting relationship is known as a partition of the sum of squares. \autocite{partition_of_SS}
+Let's look at this experiment to see the SS Decomposition in action.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{source}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(}\StringTok{"src"}\NormalTok{, }\StringTok{"law{-}of{-}total{-}variance{-}sim.R"}\NormalTok{))}
+\FunctionTok{source}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(}\StringTok{"src"}\NormalTok{, }\StringTok{"partitioning{-}SS.R"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "If we group Y by X, then we might understand Y's variability better."
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
 \end{verbatim}
 
 \includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-1-1.pdf}
 
 \begin{verbatim}
-## [1] "The population variance of Y is 4.08837570328874"
-## [1] "The population variance of Y within X is 1.01360442688087"
-## [1] "The population variance of Y between X is 3.07477127640787"
-## [1] "The variance of Y = the variance of Y within X + the variance of Y between X (4.088 = 1.014 + 3.075)"
+## [1] "If we group Y by X, then we might understand Y's variability better."
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{source}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(}\StringTok{"src"}\NormalTok{, }\StringTok{"get{-}SS.R"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = 2103.733\]
+
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = 330.102\]
+
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = 1773.631\]
 
 The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.
 
@@ -470,14 +488,14 @@ A variance-stabilizing transformation of the response variable may help.
 \end{verbatim}
 
 \begin{verbatim}
-## v broom        0.7.6      v recipes      0.1.16
-## v dials        0.0.9      v rsample      0.1.0 
-## v dplyr        1.0.6      v tibble       3.1.2 
+## v broom        0.7.6      v rsample      0.1.0 
+## v dials        0.0.9      v tibble       3.1.2 
 ## v ggplot2      3.3.3      v tidyr        1.1.3 
 ## v infer        0.5.4      v tune         0.1.5 
 ## v modeldata    0.1.0      v workflows    0.2.2 
 ## v parsnip      0.1.6      v workflowsets 0.0.2 
-## v purrr        0.3.4      v yardstick    0.0.8
+## v purrr        0.3.4      v yardstick    0.0.8 
+## v recipes      0.1.16
 \end{verbatim}
 
 \begin{verbatim}
@@ -788,18 +806,18 @@ Run linear regression
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -6.413 -2.943  1.656  2.686  5.906 
+## -5.498 -2.304  0.080  2.374  7.442 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   84.003      1.184  70.956  < 2e-16 ***
-## group          6.721      1.674   4.014 0.000813 ***
+## (Intercept)    8.162      1.050   7.770 3.70e-07 ***
+## group         12.426      1.486   8.365 1.29e-07 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 3.744 on 18 degrees of freedom
-## Multiple R-squared:  0.4724, Adjusted R-squared:  0.4431 
-## F-statistic: 16.11 on 1 and 18 DF,  p-value: 0.0008134
+## Residual standard error: 3.322 on 18 degrees of freedom
+## Multiple R-squared:  0.7954, Adjusted R-squared:  0.784 
+## F-statistic: 69.97 on 1 and 18 DF,  p-value: 1.291e-07
 \end{verbatim}
 
 Run ANOVA
@@ -815,8 +833,8 @@ Run ANOVA
 
 \begin{verbatim}
 ##             Df Sum Sq Mean Sq F value   Pr(>F)    
-## group        1  225.9  225.86   16.11 0.000813 ***
-## Residuals   18  252.3   14.02                     
+## group        1  772.0     772   69.97 1.29e-07 ***
+## Residuals   18  198.6      11                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -836,13 +854,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = 4.0143, df = 18, p-value = 0.0008134
+## t = 8.3648, df = 18, p-value = 1.291e-07
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##   3.203542 10.238458
+##   9.305047 15.546953
 ## sample estimates:
 ## mean of x mean of y 
-##    90.724    84.003
+##    20.588     8.162
 \end{verbatim}
 
 Notice the similarities.
@@ -857,7 +875,7 @@ Notice the similarities.
 
 \begin{verbatim}
 ##          2.5 %   97.5 %
-## group 3.203542 10.23846
+## group 9.305047 15.54695
 \end{verbatim}
 
 \begin{Shaded}
@@ -867,7 +885,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  3.203542 10.238458
+## [1]  9.305047 15.546953
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -881,7 +899,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0008134196
+## [1] 1.29128e-07
 \end{verbatim}
 
 \begin{Shaded}
@@ -891,7 +909,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0008134196
+## [1] 1.29128e-07
 \end{verbatim}
 
 \begin{Shaded}
@@ -901,7 +919,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0008134196
+## [1] 1.29128e-07
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -917,11 +935,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 16   Qn3      Quebec nonchilled  175   32.4
-## 63   Mn3 Mississippi nonchilled 1000   27.8
-## 28   Qc1      Quebec    chilled 1000   38.7
-## 69   Mc1 Mississippi    chilled  675   22.2
-## 48   Mn1 Mississippi nonchilled  675   32.4
+## 61   Mn3 Mississippi nonchilled  500   28.5
+## 64   Mc1 Mississippi    chilled   95   10.5
+## 13   Qn2      Quebec nonchilled  675   41.4
+## 76   Mc2 Mississippi    chilled  675   13.7
+## 32   Qc2      Quebec    chilled  350   38.8
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear

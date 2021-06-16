@@ -5,7 +5,7 @@
 Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to compare means.  It may be difficult for the neophyte to understand, but ANOVA compares means by analyzing variances.  ANOVA is based on the *Law of Total Variance* (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.[@ANOVA]
 
 ## Law of Total Variance \label{EVE}
-The law of total variance, also known as EVE's law [@EVE][@EVE-intuition], is very important for understanding how ANOVA works.  The law says that for random variables \(X\) and \(Y\) we have
+The law of total variance, also known as EVE's law [@EVE][@EVE-intuition], is very important for understanding how ANOVA works.  The law says that for random variables \(X\) and \(Y\) on the same probability space, we have
 
 \begin{equation}
 \label{eqn:EVE}
@@ -59,19 +59,21 @@ Recall [@variance] that the population variance of a finite population of size \
 
 where the sum is known as a sum of squares (SS).  
 
-Suppose that we have a random response variable \(Y_{ij}\) where the subscript indicates that we have observed this \(j^{th}\) response for the \(i^{th}\) group.  Then \ref{eqn:EVE2} can be rewritten using the definitions of the mean and variance of a population as
+## Partitioning the SS
 
-\begin{equation}
-\label{eqn:EVE3}
-\frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{\bar{y}} \right) = \frac{1}{N} \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij}-\bar{y}_{i\cdot} \right) + \sum_{i = 1}^{k} \frac{n_i}{N}\left(\bar{y}_{i\cdot} - \bar{\bar{y}} \right)^2 
-\end{equation}
-
-It is easy to see that both sides of \ref{eqn:EVE3} can be multiplied by \(N\) to give a relationship among sums of squares.  The resulting relationship is known as a partition of the sum of squares. [@partition_of_SS]
-
+Let's look at this experiment to see the SS Decomposition in action.
 
 ```{r}
-source(file.path("src", "law-of-total-variance-sim.R"))
+source(file.path("src", "partitioning-SS.R"))
+source(file.path("src", "get-SS.R"))
 ```
+
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = `r round(get_SS_total(fabricated_data$response), 3)`\]
+
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = `r round(get_SS_within(fabricated_data$trt, fabricated_data$response), 3)`\]
+
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = `r round(get_SS_between(fabricated_data$trt, fabricated_data$response), 3)`\]
+
 
 The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.  
 
