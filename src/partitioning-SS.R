@@ -9,9 +9,6 @@ plot(response ~ trt, data = fabricated_data)
 
 
 
-print("If we group Y by X, then we might understand Y's variability better.")
-
-
 # total variance of Y (sample estimation problems aside)
 get_pop_var = function(X){
   N = length(X)

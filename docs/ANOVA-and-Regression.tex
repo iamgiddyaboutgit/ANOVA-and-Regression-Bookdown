@@ -128,7 +128,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-15}
+\date{2021-06-16}
 
 \begin{document}
 \maketitle
@@ -312,7 +312,13 @@ where the sum is known as a sum of squares (SS).
 \hypertarget{partitioning-the-ss}{%
 \section{Partitioning the SS}\label{partitioning-the-ss}}
 
-Let's look at this experiment to see the SS Decomposition in action.
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{source}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(}\StringTok{"src"}\NormalTok{, }\StringTok{"get{-}SS.R"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Let's look at this simulated experiment to see the SS Decomposition in action. How can we explain the variation that we see in the response?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -337,25 +343,33 @@ Let's look at this experiment to see the SS Decomposition in action.
 ##     intersect, setdiff, setequal, union
 \end{verbatim}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-1-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{ANOVA-and-Regression_files/figure-latex/fake-exp-1-1.pdf}
+\caption{\label{fig:fake-exp-1}Responses were simulated for five different levels of a single factor. The respective sample sizes for each treatment group were 10, 14, 13, 9, and 8.}
+\end{figure}
 
-\begin{verbatim}
-## [1] "If we group Y by X, then we might understand Y's variability better."
-\end{verbatim}
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = 739.971\]
+
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = 558.06\]
+
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = 181.911\]
+
+Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 13.962\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{source}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(}\StringTok{"src"}\NormalTok{, }\StringTok{"get{-}SS.R"}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{aov}\NormalTok{(response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ trt, }\AttributeTok{data =}\NormalTok{ fabricated\_data))}
 \end{Highlighting}
 \end{Shaded}
 
-\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = 2103.733\]
-
-\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = 330.102\]
-
-\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = 1773.631\]
-
-The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.
+\begin{verbatim}
+##             Df Sum Sq Mean Sq F value  Pr(>F)   
+## trt          4  181.9   45.48   3.993 0.00699 **
+## Residuals   49  558.1   11.39                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -430,7 +444,7 @@ A variance-stabilizing transformation of the response variable may help.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-4-1.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-5-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -438,7 +452,7 @@ A variance-stabilizing transformation of the response variable may help.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-4-2.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-5-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -765,7 +779,7 @@ Let's check out our data.
 ## Did you mean `limits = factor(...)` or `scale_*_continuous()`?
 \end{verbatim}
 
-\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{ANOVA-and-Regression_files/figure-latex/unnamed-chunk-12-1.pdf}
 
 The way you code your categorical variables in a linear model is
 extremely important. Different codings lead to different interpretations
@@ -806,18 +820,18 @@ Run linear regression
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -5.498 -2.304  0.080  2.374  7.442 
+## -7.101 -3.132 -0.201  2.769  5.739 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    8.162      1.050   7.770 3.70e-07 ***
-## group         12.426      1.486   8.365 1.29e-07 ***
+## (Intercept)   83.012      1.202  69.041  < 2e-16 ***
+## group         -8.151      1.700  -4.794 0.000145 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 3.322 on 18 degrees of freedom
-## Multiple R-squared:  0.7954, Adjusted R-squared:  0.784 
-## F-statistic: 69.97 on 1 and 18 DF,  p-value: 1.291e-07
+## Residual standard error: 3.802 on 18 degrees of freedom
+## Multiple R-squared:  0.5607, Adjusted R-squared:  0.5363 
+## F-statistic: 22.98 on 1 and 18 DF,  p-value: 0.0001454
 \end{verbatim}
 
 Run ANOVA
@@ -833,8 +847,8 @@ Run ANOVA
 
 \begin{verbatim}
 ##             Df Sum Sq Mean Sq F value   Pr(>F)    
-## group        1  772.0     772   69.97 1.29e-07 ***
-## Residuals   18  198.6      11                     
+## group        1  332.2   332.2   22.98 0.000145 ***
+## Residuals   18  260.2    14.5                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -854,13 +868,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = 8.3648, df = 18, p-value = 1.291e-07
+## t = -4.7936, df = 18, p-value = 0.0001454
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##   9.305047 15.546953
+##  -11.723377  -4.578623
 ## sample estimates:
 ## mean of x mean of y 
-##    20.588     8.162
+##    74.861    83.012
 \end{verbatim}
 
 Notice the similarities.
@@ -874,8 +888,8 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-##          2.5 %   97.5 %
-## group 9.305047 15.54695
+##           2.5 %    97.5 %
+## group -11.72338 -4.578623
 \end{verbatim}
 
 \begin{Shaded}
@@ -885,7 +899,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  9.305047 15.546953
+## [1] -11.723377  -4.578623
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -899,7 +913,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.29128e-07
+## [1] 0.0001454089
 \end{verbatim}
 
 \begin{Shaded}
@@ -909,7 +923,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.29128e-07
+## [1] 0.0001454089
 \end{verbatim}
 
 \begin{Shaded}
@@ -919,7 +933,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.29128e-07
+## [1] 0.0001454089
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -935,11 +949,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 61   Mn3 Mississippi nonchilled  500   28.5
-## 64   Mc1 Mississippi    chilled   95   10.5
-## 13   Qn2      Quebec nonchilled  675   41.4
-## 76   Mc2 Mississippi    chilled  675   13.7
-## 32   Qc2      Quebec    chilled  350   38.8
+## 41   Qc3      Quebec    chilled  675   39.6
+## 6    Qn1      Quebec nonchilled  675   39.2
+## 83   Mc3 Mississippi    chilled  675   18.9
+## 37   Qc3      Quebec    chilled  175   21.0
+## 73   Mc2 Mississippi    chilled  250   12.3
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear

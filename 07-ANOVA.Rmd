@@ -61,11 +61,14 @@ where the sum is known as a sum of squares (SS).
 
 ## Partitioning the SS
 
-Let's look at this experiment to see the SS Decomposition in action.
-
 ```{r}
-source(file.path("src", "partitioning-SS.R"))
 source(file.path("src", "get-SS.R"))
+```
+
+Let's look at this simulated experiment to see the SS Decomposition in action. How can we explain the variation that we see in the response?
+
+```{r fake-exp-1, fig.cap = paste0("Responses were simulated for five different levels of a single factor. The respective sample sizes for each treatment group were ", knitr::combine_words(fab_prep$n), ".")}
+source(file.path("src", "partitioning-SS.R"))
 ```
 
 \[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = `r round(get_SS_total(fabricated_data$response), 3)`\]
@@ -74,8 +77,12 @@ source(file.path("src", "get-SS.R"))
 
 \[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = `r round(get_SS_between(fabricated_data$trt, fabricated_data$response), 3)`\]
 
+Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\).  Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = `r round(var(fabricated_data$response), 3)`\).  We get these same numbers from an ANOVA as well.
 
-The total sum of squares divided by the total degrees of freedom is the total variance in the response variable.  
+```{r}
+summary(aov(response ~ trt, data = fabricated_data))
+```
+
 
 ```{r}
 library(cellWise)

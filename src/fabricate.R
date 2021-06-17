@@ -3,13 +3,13 @@ library(dplyr)
 # Generate all combinations of the elements of
 # x taken m at a time and join them
 # together with underscores (_).
-tie = function(x, m){
+tie = function(x, m) {
   combn(x, m = m, FUN = paste, collapse = "_")
 }
 
 # Given a dataframe and columns to group,
 # this function returns the rows for each group.
-get_group_rows = function(data, cols_to_group){
+get_group_rows = function(data, cols_to_group) {
   library(dplyr)
   return(data %>%
            group_by(across(all_of(cols_to_group))) %>%
