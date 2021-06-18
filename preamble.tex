@@ -1,11 +1,17 @@
-\usepackage{booktabs}
+%\usepackage{booktabs}
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{tabularx}
-\usepackage{longtable}
+%\usepackage{longtable}
+\usepackage{caption}
+\usepackage{float} %https://stackoverflow.com/questions/1673942/latex-table-positioning
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
   \thm@postskip=\thm@preskip
 }
 \makeatother
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}

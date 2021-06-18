@@ -108,17 +108,23 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\usepackage{booktabs}
+%\usepackage{booktabs}
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{tabularx}
-\usepackage{longtable}
+%\usepackage{longtable}
+\usepackage{caption}
+\usepackage{float} %https://stackoverflow.com/questions/1673942/latex-table-positioning
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
   \thm@postskip=\thm@preskip
 }
 \makeatother
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
 \ifluatex
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -128,7 +134,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-16}
+\date{2021-06-17}
 
 \begin{document}
 \maketitle
@@ -152,27 +158,11 @@ This book was constructed with the \textbf{bookdown} package \autocite{R-bookdow
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
 
-You can label chapter and section titles using \texttt{\{\#label\}} after them, e.g., we can reference Chapter \ref{intro}. If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \ref{methods}.
+You can label chapter and section titles using \texttt{\{\#label\}} after them, e.g., we can reference Chapter \ref{intro}.
 
 Figures and tables with captions will be placed in \texttt{figure} and \texttt{table} environments, respectively.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, .}\DecValTok{1}\NormalTok{, .}\DecValTok{1}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(pressure, }\AttributeTok{type =} \StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.8\linewidth]{ANOVA-and-Regression_files/figure-latex/nice-fig-1} 
-
-}
-
-\caption{Here is a nice figure!}\label{fig:nice-fig}
-\end{figure}
-
-Reference a figure by its code chunk label with the \texttt{fig:} prefix, e.g., see Figure \ref{fig:nice-fig}. Similarly, you can reference tables generated from \texttt{knitr::kable()}, e.g., see Table \ref{tab:nice-tab}.
+Reference a figure by its code chunk label with the \texttt{fig:} prefix. Similarly, you can reference tables generated from \texttt{knitr::kable()}, e.g., see Table \ref{tab:nice-tab}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -218,38 +208,16 @@ Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
 \end{tabular}
 \end{table}
 
-\hypertarget{literature}{%
-\chapter{Literature}\label{literature}}
-
-Here is a review of existing methods.
-
-\hypertarget{methods}{%
-\chapter{Methods}\label{methods}}
-
-We describe our methods in this chapter.
-
-\hypertarget{applications}{%
-\chapter{Applications}\label{applications}}
-
-Some \emph{significant} applications are demonstrated in this chapter.
-
-\hypertarget{example-one}{%
-\section{Example one}\label{example-one}}
-
-\hypertarget{example-two}{%
-\section{Example two}\label{example-two}}
-
-\hypertarget{final-words}{%
-\chapter{Final Words}\label{final-words}}
-
-We have finished a nice book.
-
 \hypertarget{anova-fun}{%
 \chapter{ANOVA Fundamentals}\label{anova-fun}}
 
-\newcommand{\E}{\mathrm{E}}
-\newcommand{\Var}{\mathrm{Var}}
-\newcommand{\Cov}{\mathrm{Cov}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(cellWise)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{tidy.opts=}\FunctionTok{list}\NormalTok{(}\AttributeTok{width.cutoff=}\DecValTok{50}\NormalTok{),}\AttributeTok{tidy=}\ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to compare means. It may be difficult for the neophyte to understand, but ANOVA compares means by analyzing variances. ANOVA is based on the \emph{Law of Total Variance} (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.\autocite{ANOVA}
 
@@ -260,26 +228,26 @@ The law of total variance, also known as EVE's law \autocite{EVE}\autocite{EVE-i
 
 \begin{equation}
 \label{eqn:EVE}
-\mathrm{Var}(Y) = \mathrm{E}[\mathrm{Var}(Y|X)] + \mathrm{Var}[\mathrm{E}(Y|X)].
+\Var(Y) = \E[\Var(Y|X)] + \Var[\E(Y|X)].
 \end{equation}
 
 Let us consider the case of One-way ANOVA using Fixed Effects. We observe the random variable \(Y_{ij}\), the \(j^{th}\) response for the \(i^{th}\) level of the single factor. Let \(A_i\) be the event where the \(i^{th}\) level of this factor is observed. Then \ref{eqn:EVE} can be interpreted as
 
 \begin{equation}
 \label{eqn:EVE2}
-\mathrm{Var}(Y_{ij}) = \underbrace{\mathrm{E}[\mathrm{Var}(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\mathrm{Var}[\mathrm{E}(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
+\Var(Y_{ij}) = \underbrace{\E[\Var(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{within groups}}} + \underbrace{\Var[\E(Y_{ij}|A_i)]}_{\substack{\text{variance of } Y \\ \text{between groups}}}
 \end{equation}
 
 Can \ref{eqn:EVE2} be simplified into something computationally useful for our ANOVA?
 
 \begin{equation}
 \label{eqn:EVE2.1}
-\mathrm{E}(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} y_{ij} \frac{1}{n_i} = \bar{y}_{i \cdot}
+\E(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} y_{ij} \frac{1}{n_i} = \bar{y}_{i \cdot}
 \end{equation}
 
 \begin{equation}
 \label{eqn:EVE2.2}
-\mathrm{Var}(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i}
+\Var(Y_{ij}|A_i) = \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i}
 \end{equation}
 
 \begin{equation}
@@ -349,35 +317,46 @@ Let's look at this simulated experiment to see the SS Decomposition in action. H
 \caption{\label{fig:fake-exp-1}Responses were simulated for five different levels of a single factor. The respective sample sizes for each treatment group were 10, 14, 13, 9, and 8.}
 \end{figure}
 
-\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = 739.971\]
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = 2228.194\]
 
-\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = 558.06\]
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = 449.625\]
 
-\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = 181.911\]
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = 1778.569\]
 
-Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 13.962\).
+Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 42.041\). We get these same numbers from an ANOVA as well.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(}\FunctionTok{aov}\NormalTok{(response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ trt, }\AttributeTok{data =}\NormalTok{ fabricated\_data))}
+\FunctionTok{anova}\NormalTok{(}\FunctionTok{aov}\NormalTok{(response }\SpecialCharTok{\textasciitilde{}}\NormalTok{ trt, }\AttributeTok{data =}\NormalTok{ fabricated\_data))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value  Pr(>F)   
-## trt          4  181.9   45.48   3.993 0.00699 **
-## Residuals   49  558.1   11.39                   
+## Analysis of Variance Table
+## 
+## Response: response
+##           Df  Sum Sq Mean Sq F value    Pr(>F)    
+## trt        4 1778.57  444.64  48.457 < 2.2e-16 ***
+## Residuals 49  449.63    9.18                      
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(cellWise)}
-\FunctionTok{library}\NormalTok{(knitr)}
-\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{tidy.opts=}\FunctionTok{list}\NormalTok{(}\AttributeTok{width.cutoff=}\DecValTok{50}\NormalTok{),}\AttributeTok{tidy=}\ConstantTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{the-anova-table}{%
+\section{The ANOVA Table}\label{the-anova-table}}
+
+\begin{table}[H]
+\caption{One-way ANOVA table}
+\begin{tabular}{M{0.15\textwidth} l l l l}
+\toprule
+\textbf{Source of Variation} & \textbf{DF} & \textbf{SS} & \textbf{MS} & \(\symbfit{F}\) \\
+\midrule
+Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
+\addlinespace[0.5cm]
+Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2\) & \(\dfrac{\text{MS}_{\text{within}}}{N - k}\) \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \hypertarget{step-1-make-up-data}{%
 \section{Step 1: Make up Data}\label{step-1-make-up-data}}
@@ -820,18 +799,18 @@ Run linear regression
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -7.101 -3.132 -0.201  2.769  5.739 
+## -5.438 -2.108  0.016  1.839  4.942 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   83.012      1.202  69.041  < 2e-16 ***
-## group         -8.151      1.700  -4.794 0.000145 ***
+##             Estimate Std. Error t value Pr(>|t|)  
+## (Intercept)   1.5880     0.8577   1.851   0.0806 .
+## group         2.6920     1.2130   2.219   0.0396 *
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 3.802 on 18 degrees of freedom
-## Multiple R-squared:  0.5607, Adjusted R-squared:  0.5363 
-## F-statistic: 22.98 on 1 and 18 DF,  p-value: 0.0001454
+## Residual standard error: 2.712 on 18 degrees of freedom
+## Multiple R-squared:  0.2148, Adjusted R-squared:  0.1712 
+## F-statistic: 4.925 on 1 and 18 DF,  p-value: 0.03956
 \end{verbatim}
 
 Run ANOVA
@@ -846,9 +825,9 @@ Run ANOVA
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value   Pr(>F)    
-## group        1  332.2   332.2   22.98 0.000145 ***
-## Residuals   18  260.2    14.5                     
+##             Df Sum Sq Mean Sq F value Pr(>F)  
+## group        1  36.23   36.23   4.925 0.0396 *
+## Residuals   18 132.42    7.36                 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -868,13 +847,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = -4.7936, df = 18, p-value = 0.0001454
+## t = 2.2193, df = 18, p-value = 0.03956
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -11.723377  -4.578623
+##  0.1435705 5.2404295
 ## sample estimates:
 ## mean of x mean of y 
-##    74.861    83.012
+##     4.280     1.588
 \end{verbatim}
 
 Notice the similarities.
@@ -888,8 +867,8 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-##           2.5 %    97.5 %
-## group -11.72338 -4.578623
+##           2.5 %  97.5 %
+## group 0.1435705 5.24043
 \end{verbatim}
 
 \begin{Shaded}
@@ -899,7 +878,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] -11.723377  -4.578623
+## [1] 0.1435705 5.2404295
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -913,7 +892,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0001454089
+## [1] 0.03955666
 \end{verbatim}
 
 \begin{Shaded}
@@ -923,7 +902,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0001454089
+## [1] 0.03955666
 \end{verbatim}
 
 \begin{Shaded}
@@ -933,7 +912,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0001454089
+## [1] 0.03955666
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -949,11 +928,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 41   Qc3      Quebec    chilled  675   39.6
-## 6    Qn1      Quebec nonchilled  675   39.2
-## 83   Mc3 Mississippi    chilled  675   18.9
-## 37   Qc3      Quebec    chilled  175   21.0
-## 73   Mc2 Mississippi    chilled  250   12.3
+## 62   Mn3 Mississippi nonchilled  675   28.1
+## 5    Qn1      Quebec nonchilled  500   35.3
+## 42   Qc3      Quebec    chilled 1000   41.4
+## 74   Mc2 Mississippi    chilled  350   13.0
+## 77   Mc2 Mississippi    chilled 1000   14.4
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear

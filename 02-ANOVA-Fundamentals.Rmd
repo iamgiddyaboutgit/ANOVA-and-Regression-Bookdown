@@ -1,7 +1,11 @@
 # ANOVA Fundamentals {#anova-fun}
-\newcommand{\E}{\mathrm{E}}
-\newcommand{\Var}{\mathrm{Var}}
-\newcommand{\Cov}{\mathrm{Cov}}
+
+```{r}
+library(cellWise)
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=50),tidy=TRUE)
+```
+
 Analysis of variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to compare means.  It may be difficult for the neophyte to understand, but ANOVA compares means by analyzing variances.  ANOVA is based on the *Law of Total Variance* (\ref{EVE}), where the observed variance in a particular variable is partitioned into components attributable to different sources of variation.[@ANOVA]
 
 ## Law of Total Variance \label{EVE}
@@ -80,15 +84,24 @@ source(file.path("src", "partitioning-SS.R"))
 Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\).  Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = `r round(var(fabricated_data$response), 3)`\).  We get these same numbers from an ANOVA as well.
 
 ```{r}
-summary(aov(response ~ trt, data = fabricated_data))
+anova(aov(response ~ trt, data = fabricated_data))
 ```
 
+## The ANOVA Table
 
-```{r}
-library(cellWise)
-library(knitr)
-opts_chunk$set(tidy.opts=list(width.cutoff=50),tidy=TRUE)
-```
+\begin{table}[H]
+\caption{One-way ANOVA table}
+\begin{tabular}{M{0.15\textwidth} l l l l}
+\toprule
+\textbf{Source of Variation} & \textbf{DF} & \textbf{SS} & \textbf{MS} & \(\symbfit{F}\) \\
+\midrule
+Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
+\addlinespace[0.5cm]
+Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2\) & \(\dfrac{\text{MS}_{\text{within}}}{N - k}\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 ## Step 1: Make up Data
 
