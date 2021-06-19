@@ -37,16 +37,16 @@ Can \ref{eqn:EVE2} be simplified into something computationally useful for our A
 
 \begin{equation}
 \label{eqn:EVE2.3}
-\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 \frac{1}{N} = \sum_{i=1}^{k} \left( \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i} \right) \frac{n_i}{N} +
-\sum_{i=1}^{k} \left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 \frac{n_i}{N}
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 \frac{1}{N} = \sum_{i=1}^{k} \left( \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 \frac{1}{n_i} \right) \frac{n_i}{N} +
+\sum_{i=1}^{k} \left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 \frac{n_i}{N}
 \end{equation}
 
 After multiplying both sides by \(N\), we have this partition of the \(\text{SS}\)
 
 \begin{equation}
 \label{eqn:EVE2.4}
-\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 +
-\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 +
+\sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 
 \end{equation}
 
 
@@ -75,11 +75,11 @@ Let's look at this simulated experiment to see the SS Decomposition in action. H
 source(file.path("src", "partitioning-SS.R"))
 ```
 
-\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = `r round(get_SS_total(fabricated_data$response), 3)`\]
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 = `r round(get_SS_total(fabricated_data$response), 3)`\]
 
-\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = `r round(get_SS_within(fabricated_data$trt, fabricated_data$response), 3)`\]
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 = `r round(get_SS_within(fabricated_data$trt, fabricated_data$response), 3)`\]
 
-\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = `r round(get_SS_between(fabricated_data$trt, fabricated_data$response), 3)`\]
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 = `r round(get_SS_between(fabricated_data$trt, fabricated_data$response), 3)`\]
 
 Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\).  Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = `r round(var(fabricated_data$response), 3)`\).  We get these same numbers from an ANOVA as well.
 
@@ -89,15 +89,17 @@ anova(aov(response ~ trt, data = fabricated_data))
 
 ## The ANOVA Table
 
+The ANOVA table summarizes the variability that we see in the response.  For more information on mean squares (MS), which are calculated by dividing the SS by their corresponding degrees of freedom (DF), please see [@MS-Interpretation].
+
 \begin{table}[H]
 \caption{One-way ANOVA table}
 \begin{tabular}{M{0.15\textwidth} l l l l}
 \toprule
-\textbf{Source of Variation} & \textbf{DF} & \textbf{SS} & \textbf{MS} & \(\symbfit{F}\) \\
+Source of Variation & DF & SS & MS & \(F\) \\
 \midrule
-Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
+Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
 \addlinespace[0.5cm]
-Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2\) & \(\dfrac{\text{MS}_{\text{within}}}{N - k}\) \\
+Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{within}}}{N - k}\) \\
 \bottomrule
 \end{tabular}
 \end{table}

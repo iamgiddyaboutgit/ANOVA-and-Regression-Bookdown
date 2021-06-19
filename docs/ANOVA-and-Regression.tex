@@ -122,6 +122,8 @@
 }
 \makeatother
 \newcommand{\E}{\mathrm{E}}
+%Remember to use \symbfit for bold italic math, Justin!
+%Remember to use \textbf for bold text.
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
 \newcolumntype{M}[1]{>{\raggedright}m{#1}}
@@ -134,7 +136,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-17}
+\date{2021-06-18}
 
 \begin{document}
 \maketitle
@@ -252,16 +254,16 @@ Can \ref{eqn:EVE2} be simplified into something computationally useful for our A
 
 \begin{equation}
 \label{eqn:EVE2.3}
-\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 \frac{1}{N} = \sum_{i=1}^{k} \left( \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 \frac{1}{n_i} \right) \frac{n_i}{N} +
-\sum_{i=1}^{k} \left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 \frac{n_i}{N}
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 \frac{1}{N} = \sum_{i=1}^{k} \left( \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 \frac{1}{n_i} \right) \frac{n_i}{N} +
+\sum_{i=1}^{k} \left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 \frac{n_i}{N}
 \end{equation}
 
 After multiplying both sides by \(N\), we have this partition of the \(\text{SS}\)
 
 \begin{equation}
 \label{eqn:EVE2.4}
-\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 +
-\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 
+\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 +
+\sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 
 \end{equation}
 
 Recall \autocite{expected_val} the definition of the mean of a population. Let \(X\) be a random variable with a finite number of finite outcomes\\
@@ -317,13 +319,13 @@ Let's look at this simulated experiment to see the SS Decomposition in action. H
 \caption{\label{fig:fake-exp-1}Responses were simulated for five different levels of a single factor. The respective sample sizes for each treatment group were 10, 14, 13, 9, and 8.}
 \end{figure}
 
-\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{\bar{y}} \right)^2 = 2228.194\]
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 = 2166.624\]
 
-\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2 = 449.625\]
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 = 316.755\]
 
-\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2 = 1778.569\]
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 = 1849.869\]
 
-Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 42.041\). We get these same numbers from an ANOVA as well.
+Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 40.88\). We get these same numbers from an ANOVA as well.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -336,8 +338,8 @@ Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{
 ## 
 ## Response: response
 ##           Df  Sum Sq Mean Sq F value    Pr(>F)    
-## trt        4 1778.57  444.64  48.457 < 2.2e-16 ***
-## Residuals 49  449.63    9.18                      
+## trt        4 1849.87  462.47  71.541 < 2.2e-16 ***
+## Residuals 49  316.75    6.46                      
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -345,15 +347,17 @@ Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{
 \hypertarget{the-anova-table}{%
 \section{The ANOVA Table}\label{the-anova-table}}
 
+The ANOVA table summarizes the variability that we see in the response. For more information on mean squares (MS), which are calculated by dividing the SS by their corresponding degrees of freedom (DF), please see \autocite{MS-Interpretation}.
+
 \begin{table}[H]
 \caption{One-way ANOVA table}
 \begin{tabular}{M{0.15\textwidth} l l l l}
 \toprule
-\textbf{Source of Variation} & \textbf{DF} & \textbf{SS} & \textbf{MS} & \(\symbfit{F}\) \\
+Source of Variation & DF & SS & MS & \(F\) \\
 \midrule
-Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \cdot} - \bar{\bar{y}} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
+Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
 \addlinespace[0.5cm]
-Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \cdot} \right)^2\) & \(\dfrac{\text{MS}_{\text{within}}}{N - k}\) \\
+Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{within}}}{N - k}\) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -799,18 +803,18 @@ Run linear regression
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -5.438 -2.108  0.016  1.839  4.942 
+## -6.397 -1.694  0.007  1.655  7.741 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)   1.5880     0.8577   1.851   0.0806 .
-## group         2.6920     1.2130   2.219   0.0396 *
+##             Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)    3.537      1.105   3.202  0.00494 **
+## group          4.692      1.562   3.004  0.00762 **
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.712 on 18 degrees of freedom
-## Multiple R-squared:  0.2148, Adjusted R-squared:  0.1712 
-## F-statistic: 4.925 on 1 and 18 DF,  p-value: 0.03956
+## Residual standard error: 3.493 on 18 degrees of freedom
+## Multiple R-squared:  0.3339, Adjusted R-squared:  0.2969 
+## F-statistic: 9.023 on 1 and 18 DF,  p-value: 0.007622
 \end{verbatim}
 
 Run ANOVA
@@ -825,9 +829,9 @@ Run ANOVA
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value Pr(>F)  
-## group        1  36.23   36.23   4.925 0.0396 *
-## Residuals   18 132.42    7.36                 
+##             Df Sum Sq Mean Sq F value  Pr(>F)   
+## group        1  110.1   110.1   9.023 0.00762 **
+## Residuals   18  219.6    12.2                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -847,13 +851,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = 2.2193, df = 18, p-value = 0.03956
+## t = 3.0038, df = 18, p-value = 0.007622
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.1435705 5.2404295
+##  1.410327 7.973673
 ## sample estimates:
 ## mean of x mean of y 
-##     4.280     1.588
+##     8.229     3.537
 \end{verbatim}
 
 Notice the similarities.
@@ -867,8 +871,8 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-##           2.5 %  97.5 %
-## group 0.1435705 5.24043
+##          2.5 %   97.5 %
+## group 1.410327 7.973673
 \end{verbatim}
 
 \begin{Shaded}
@@ -878,7 +882,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1435705 5.2404295
+## [1] 1.410327 7.973673
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -892,7 +896,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03955666
+## [1] 0.007621967
 \end{verbatim}
 
 \begin{Shaded}
@@ -902,7 +906,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03955666
+## [1] 0.007621967
 \end{verbatim}
 
 \begin{Shaded}
@@ -912,7 +916,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03955666
+## [1] 0.007621967
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -928,11 +932,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 62   Mn3 Mississippi nonchilled  675   28.1
-## 5    Qn1      Quebec nonchilled  500   35.3
+## 40   Qc3      Quebec    chilled  500   38.9
+## 71   Mc2 Mississippi    chilled   95    7.7
 ## 42   Qc3      Quebec    chilled 1000   41.4
-## 74   Mc2 Mississippi    chilled  350   13.0
-## 77   Mc2 Mississippi    chilled 1000   14.4
+## 24   Qc1      Quebec    chilled  250   30.3
+## 59   Mn3 Mississippi nonchilled  250   25.8
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear
