@@ -19,5 +19,5 @@ This project is meant to be a personal guide to ANOVA and regression. The scope 
 **Disclaimer**  
 This project was not written by an expert. That being said, I would appreciate any comments.
 
-**Note**
+**Note**  
 This book was constructed with the **bookdown** package [@R-bookdown], which was built on top of R Markdown and **knitr** [@xie2015].

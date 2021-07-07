@@ -99,7 +99,7 @@ Source of Variation & DF & SS & MS & \(F\) \\
 \midrule
 Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
 \addlinespace[0.5cm]
-Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{within}}}{N - k}\) \\
+Within treatment groups & \(n - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{within}}}{n - k}\) \\
 \bottomrule
 \end{tabular}
 \end{table}

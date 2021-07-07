@@ -1,5 +1,60 @@
 # Introduction {#intro}
 
+## The Setting  
+You have written a statistical analysis plan and have conducted the corresponding experiment.  You are now ready to analyze the data according to plan.  Questions you may have include: Are the results due to chance?  Do some of the treatments explain more of the variation in the response than the other treatments?  What are simultaneous confidence intervals for the mean response under each treatment?
+
+## The Process  
+This booklet provides the guidance needed to turn raw experimental data into results!
+
+### Models Provide the Foundation for Statistical Inference  
+Statistical models are a special type of mathematical model [@math-model].  Like all mathematical models, they are composed of relationships and variables.  However, statistical models make use of stochastic (a.k.a. random) variables.  They are thus non-deterministic.  Statistical models (whether they be parametric, semi-parametric, or non-parametric) provide the foundation for statistical estimation and null hypothesis significance testing (NHST) [@stat-model].  A statistical model is a pair \(\left(\mathcal{S},\mathcal{P}\right)\) where \(\mathcal{S}\) is the set of all possible outcomes of a probability experiment, i.e. the sample space and where \(\mathcal{P}\) is a set of probability distributions on \(\mathcal{S}\).  The \(\mathcal{P}\) used for a parameterized statistical model can be written as
+
+\[
+\mathcal{P} = \{P_\theta : \theta \in \Theta\}
+\]
+
+where \(\mathcal{P}\) is indexed by the parameter space \(\Theta\).
+
+The moral of the story is that analyzing data from an experiment requires some kind of statistical model of how such data was generated.  Analysis of Variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze differences among means [@ANOVA].  It is by far the most common paradigm for analyzing experimental data.  Statistical models used in ANOVA can be broadly classified into one of three categories:    
+
+1. Fixed-Effects Models  
+2. Random-Effects Models  
+3. Mixed-Effects Models  
+
+We will mainly focus on fixed-effects models.  
+
+### What Does Regression Have to do with it?  
+It should be noted that the central NHST of an ANOVA is the \(F\)-Test.  Interestingly, the hypothesis that a proposed regression model fits the data well and the hypothesis that a data set in a regression analysis follows the simpler of two proposed linear models that are nested within each other all are tested using \(F\)-Tests [@F-test].  
+
+Regression analysis is a collection of statistical models and their associated estimation procedures used to analyze the relationship between one or more response variables and one or more explanatory variables [@regression-analysis].  If we think of the explanatory variables as the levels of the factors in the experiment, then regression analysis can be used to analyze the relationship between the factors and the response variable just like ANOVA.
+
+Indeed, regression analyses often include an ANOVA table (just like ANOVA) that also is based on partitioning sums of squares (measures of variability).
+
+
+To do this we will 
+
+1. Give brief insights into the finer points of the theory.  
+  + Clarify key relationships.  
+  + Provide synonyms for common terminology. 
+2. Go through guided walk-throughs with simulated data.  
+  + Check assumptions.
+  + Compare to results from permutation tests and bootstrapping.
+
+
+We will give some theory and general guidelines. 
+We get practice with checking the assumptions.
+For several simulated datasets, we will perform the classic, omnibus ANOVA F-Test and will estimate confidence intervals for linear combinations of means.  We will compare our results to those from permutation tests and bootstrapping.
+
+
+We will compare the results of various NHSTs of contrasts of means of various classic ANOVA null hand compare the results to permutation tests.  
+is the multiple linear model (which also shows up in multiple linear regression).  We will attempt to explain how the multiple linear model ties together ANOVA and multiple linear regression.  
+
+
+We will cover the theory behind ANOVA and its relationship to regression.  
+
+
+
+
 You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). 
 
 Figures and tables with captions will be placed in `figure` and `table` environments, respectively.

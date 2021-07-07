@@ -136,7 +136,7 @@
 
 \title{Regression and ANOVA}
 \author{Justin Patterson}
-\date{2021-06-18}
+\date{2021-07-05}
 
 \begin{document}
 \maketitle
@@ -154,11 +154,90 @@ This project is meant to be a personal guide to ANOVA and regression. The scope 
 \textbf{Disclaimer}\\
 This project was not written by an expert. That being said, I would appreciate any comments.
 
-\textbf{Note}
+\textbf{Note}\\
 This book was constructed with the \textbf{bookdown} package \autocite{R-bookdown}, which was built on top of R Markdown and \textbf{knitr} \autocite{xie2015}.
 
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
+
+\hypertarget{the-setting}{%
+\section{The Setting}\label{the-setting}}
+
+A statistical analysis plan has been specified and a corresponding experiment has been performed. You are now ready to analyze the data according to plan. Questions you may have include: Are the results due to chance? Do some of the treatments explain more of the variation in the response than the other treatments? What are simultaneous confidence intervals for the mean response under each treatment?
+
+\hypertarget{the-process}{%
+\section{The Process}\label{the-process}}
+
+This booklet provides the guidance needed to turn raw experimental data into results!
+
+\hypertarget{models-provide-the-foundation-for-statistical-inference}{%
+\subsection{Models Provide the Foundation for Statistical Inference}\label{models-provide-the-foundation-for-statistical-inference}}
+
+Statistical models (whether they be parametric or non-parametric) provide the foundation for statistical estimation and null hypothesis significance testing (NHST) \autocite{stat-model}. Therefore, analyzing data from an experiment requires some kind of statistical model of how such data was generated. Analysis of Variance (ANOVA) is a collection of statistical models and their associated estimation procedures used to analyze differences among means \autocite{ANOVA}. It is by far the most common paradigm for analyzing experimental data. Statistical models used in ANOVA can be broadly classified into one of three categories:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Fixed-Effects Models\\
+\item
+  Random-Effects Models\\
+\item
+  Mixed-Effects Models
+\end{enumerate}
+
+We will mainly focus on fixed-effects models.
+
+\hypertarget{what-does-regression-have-to-do-with-it}{%
+\subsection{What Does Regression Have to do with it?}\label{what-does-regression-have-to-do-with-it}}
+
+It should be noted that the central NHST of an ANOVA is the \(F\)-Test. Interestingly, the hypothesis that a proposed regression model fits the data well and the hypothesis that a data set in a regression analysis follows the simpler of two proposed linear models that are nested within each other all are tested using \(F\)-Tests \autocite{F-test}.
+
+Regression analysis is a collection of statistical models and their associated estimation procedures used to analyze the relationship between one or more response variables and one or more explanatory variables \autocite{regression-analysis}. If we think of the explanatory variables as the levels of the factors in the experiment, then regression analysis can be used to analyze the relationship between the factors and the response variable just like ANOVA.
+
+Indeed, regression analyses often include an ANOVA table (just like ANOVA) that also is based on partitioning sums of squares (measures of variability).
+
+To do this we will
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Give brief insights into the finer points of the theory.\\
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Clarify key relationships.\\
+\item
+  Provide synonyms for common terminology.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Go through guided walk-throughs with simulated data.\\
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Check assumptions.
+\item
+  Compare to results from permutation tests and bootstrapping.
+\end{itemize}
+
+We will give some theory and general guidelines.
+We get practice with checking the assumptions.
+For several simulated datasets, we will perform the classic, omnibus ANOVA F-Test and will estimate confidence intervals for linear combinations of means. We will compare our results to those from permutation tests and bootstrapping.
+
+We will compare the results of various NHSTs of contrasts of means of various classic ANOVA null hand compare the results to permutation tests.\\
+is the multiple linear model (which also shows up in multiple linear regression). We will attempt to explain how the multiple linear model ties together ANOVA and multiple linear regression.
+
+We will cover the theory behind ANOVA and its relationship to regression.
 
 You can label chapter and section titles using \texttt{\{\#label\}} after them, e.g., we can reference Chapter \ref{intro}.
 
@@ -319,13 +398,13 @@ Let's look at this simulated experiment to see the SS Decomposition in action. H
 \caption{\label{fig:fake-exp-1}Responses were simulated for five different levels of a single factor. The respective sample sizes for each treatment group were 10, 14, 13, 9, and 8.}
 \end{figure}
 
-\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 = 2166.624\]
+\[\text{SS}_{\text{total}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left( y_{ij} - \bar{y}_{\bullet\bullet} \right)^2 = 760.608\]
 
-\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 = 316.755\]
+\[\text{SS}_{\text{within}} = \sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2 = 502.377\]
 
-\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 = 1849.869\]
+\[\text{SS}_{\text{between}} = \sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2 = 258.231\]
 
-Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 40.88\). We get these same numbers from an ANOVA as well.
+Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{\text{between}}\). Also, \(\frac{\text{SS}_{\text{total}}}{n - 1} = s^2 = 14.351\). We get these same numbers from an ANOVA as well.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -337,9 +416,9 @@ Notice that \(\text{SS}_{\text{total}} = \text{SS}_{\text{within}} + \text{SS}_{
 ## Analysis of Variance Table
 ## 
 ## Response: response
-##           Df  Sum Sq Mean Sq F value    Pr(>F)    
-## trt        4 1849.87  462.47  71.541 < 2.2e-16 ***
-## Residuals 49  316.75    6.46                      
+##           Df Sum Sq Mean Sq F value    Pr(>F)    
+## trt        4 258.23  64.558  6.2967 0.0003598 ***
+## Residuals 49 502.38  10.253                      
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -357,7 +436,7 @@ Source of Variation & DF & SS & MS & \(F\) \\
 \midrule
 Between treatment groups & \(k - 1\) & \(\sum_{i=1}^{k} n_i\left( \bar{y}_{i \bullet} - \bar{y}_{\bullet\bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{between}}}{k - 1}\) & \(\dfrac{\text{MS}_{\text{between}}}{\text{MS}_{\text{within}}}\) \\
 \addlinespace[0.5cm]
-Within treatment groups & \(N - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{within}}}{N - k}\) \\
+Within treatment groups & \(n - k\) & \(\sum_{i=1}^{k} \sum_{j = 1}^{n_i} \left(y_{ij} - \bar{y}_{i \bullet} \right)^2\) & \(\dfrac{\text{SS}_{\text{within}}}{n - k}\) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -802,19 +881,19 @@ Run linear regression
 ## lm(formula = response ~ group, data = data1)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -6.397 -1.694  0.007  1.655  7.741 
+##     Min      1Q  Median      3Q     Max 
+## -4.1630 -2.4145  0.5275  1.7145  4.2280 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)   
-## (Intercept)    3.537      1.105   3.202  0.00494 **
-## group          4.692      1.562   3.004  0.00762 **
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  88.6020     0.7761 114.162  < 2e-16 ***
+## group         4.4110     1.0976   4.019 0.000805 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 3.493 on 18 degrees of freedom
-## Multiple R-squared:  0.3339, Adjusted R-squared:  0.2969 
-## F-statistic: 9.023 on 1 and 18 DF,  p-value: 0.007622
+## Residual standard error: 2.454 on 18 degrees of freedom
+## Multiple R-squared:  0.4729, Adjusted R-squared:  0.4436 
+## F-statistic: 16.15 on 1 and 18 DF,  p-value: 0.0008053
 \end{verbatim}
 
 Run ANOVA
@@ -829,9 +908,9 @@ Run ANOVA
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value  Pr(>F)   
-## group        1  110.1   110.1   9.023 0.00762 **
-## Residuals   18  219.6    12.2                   
+##             Df Sum Sq Mean Sq F value   Pr(>F)    
+## group        1  97.28   97.28   16.15 0.000805 ***
+## Residuals   18 108.42    6.02                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -851,13 +930,13 @@ Run t-Test
 ##  Two Sample t-test
 ## 
 ## data:  data1[data1$group == 1, "response"] and data1[data1$group == 0, "response"]
-## t = 3.0038, df = 18, p-value = 0.007622
+## t = 4.0188, df = 18, p-value = 0.0008053
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  1.410327 7.973673
+##  2.105066 6.716934
 ## sample estimates:
 ## mean of x mean of y 
-##     8.229     3.537
+##    93.013    88.602
 \end{verbatim}
 
 Notice the similarities.
@@ -872,7 +951,7 @@ Notice the similarities.
 
 \begin{verbatim}
 ##          2.5 %   97.5 %
-## group 1.410327 7.973673
+## group 2.105066 6.716934
 \end{verbatim}
 
 \begin{Shaded}
@@ -882,7 +961,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.410327 7.973673
+## [1] 2.105066 6.716934
 ## attr(,"conf.level")
 ## [1] 0.95
 \end{verbatim}
@@ -896,7 +975,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.007621967
+## [1] 0.0008053323
 \end{verbatim}
 
 \begin{Shaded}
@@ -906,7 +985,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.007621967
+## [1] 0.0008053323
 \end{verbatim}
 
 \begin{Shaded}
@@ -916,7 +995,7 @@ Notice the similarities.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.007621967
+## [1] 0.0008053323
 \end{verbatim}
 
 Now, let's look at something else. The CO2 data frame has 84 rows and 5
@@ -932,11 +1011,11 @@ species Echinochloa crus-galli.
 
 \begin{verbatim}
 ##    Plant        Type  Treatment conc uptake
-## 40   Qc3      Quebec    chilled  500   38.9
-## 71   Mc2 Mississippi    chilled   95    7.7
-## 42   Qc3      Quebec    chilled 1000   41.4
-## 24   Qc1      Quebec    chilled  250   30.3
-## 59   Mn3 Mississippi nonchilled  250   25.8
+## 37   Qc3      Quebec    chilled  175   21.0
+## 6    Qn1      Quebec nonchilled  675   39.2
+## 84   Mc3 Mississippi    chilled 1000   19.9
+## 51   Mn2 Mississippi nonchilled  175   22.0
+## 76   Mc2 Mississippi    chilled  675   13.7
 \end{verbatim}
 
 What is a linear model? In the context of linear regression, a linear
@@ -986,6 +1065,9 @@ variables that is linear in the parameters.
 ## 14 Type_Mississippi   NA       NA         NA      NA       
 ## 15 Treatment_chilled  NA       NA         NA      NA
 \end{verbatim}
+
+\hypertarget{regress-fun}{%
+\chapter{Regression Fundamentals}\label{regress-fun}}
 
 \printbibliography
 
